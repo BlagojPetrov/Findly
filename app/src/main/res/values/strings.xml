@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Findly</string>
+    <string name="search_hint">Search items…</string>
+    <string name="filter_all">All</string>
+    <string name="filter_lost">Lost</string>
+    <string name="filter_found">Found</string>
+    <string name="fab_report">Report Item</string>
+    <string name="empty_state_title">Nothing found</string>
+    <string name="empty_state_subtitle">Try a different search or filter</string>
+    <string name="type_lost">LOST</string>
+    <string name="type_found">FOUND</string>
+    <string name="location_unknown">Location not specified</string>
+    <string name="label_description">Description</string>
+    <string name="btn_contact">Contact Poster</string>
+    <string name="btn_report">Report this item</string>
+    <string name="posted_by">Posted by %1$s</string>
+    <string name="contact_coming_soon">Chat feature coming soon</string>
+    <string name="report_coming_soon">Reporting coming soon</string>
 </resources>
