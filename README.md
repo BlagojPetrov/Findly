@@ -1,4 +1,4 @@
-# Findly – Lost & Found System
+# Findly – Lost & Found App
 
 Android application built with Kotlin, MVVM architecture and Firebase.
 
