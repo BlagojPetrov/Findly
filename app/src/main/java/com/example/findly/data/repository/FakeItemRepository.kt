@@ -2,15 +2,14 @@ package com.example.findly.data.repository
 
 import com.example.findly.domain.model.Category
 import com.example.findly.domain.model.Item
-import com.example.findly.domain.repository.ItemRepository
 import com.example.findly.domain.model.ItemType
+import com.example.findly.domain.repository.ItemRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
-class FakeItemRepository : ItemRepository {
+class FakeItemRepository private constructor() : ItemRepository {
 
-    // A StateFlow so we can later simulate real-time updates easily
     private val _items = MutableStateFlow(dummyItems())
 
     override fun getItemsFeed(): Flow<List<Item>> = _items
@@ -30,6 +29,23 @@ class FakeItemRepository : ItemRepository {
 
     override suspend fun getItemById(id: String): Item? {
         return _items.value.find { it.id == id }
+    }
+
+    override suspend fun createItem(item: Item) {
+        val current = _items.value.toMutableList()
+        current.add(0, item)
+        _items.value = current
+    }
+
+    companion object {
+        @Volatile
+        private var INSTANCE: FakeItemRepository? = null
+
+        fun getInstance(): FakeItemRepository {
+            return INSTANCE ?: synchronized(this) {
+                INSTANCE ?: FakeItemRepository().also { INSTANCE = it }
+            }
+        }
     }
 
     private fun dummyItems() = listOf(

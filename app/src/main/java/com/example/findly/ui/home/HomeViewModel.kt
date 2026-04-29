@@ -14,7 +14,8 @@ import kotlinx.coroutines.flow.*
 class HomeViewModel : ViewModel() {
 
     // Will be injected via Hilt later — for now we instantiate directly
-    private val repository: ItemRepository = FakeItemRepository()
+
+    private val repository: ItemRepository = FakeItemRepository.getInstance()
 
     private val _searchQuery = MutableStateFlow("")
     private val _activeFilter = MutableStateFlow<ItemType?>(null)  // null = show all

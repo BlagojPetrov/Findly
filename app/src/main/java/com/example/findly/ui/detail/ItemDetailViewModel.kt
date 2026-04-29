@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class ItemDetailViewModel(
     private val itemId: String,
-    private val repository: ItemRepository = FakeItemRepository()
+    private val repository: ItemRepository = FakeItemRepository.getInstance()
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<DetailUiState>(DetailUiState.Loading)

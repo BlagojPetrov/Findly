@@ -37,6 +37,11 @@ class HomeFragment : Fragment() {
         setupSearch()
         setupFilters()
         observeUiState()
+        binding.fabAddItem.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeToAdd()
+            )
+        }
     }
 
     private fun setupRecyclerView() {

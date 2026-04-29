@@ -1,0 +1,150 @@
+package com.example.findly.ui.add
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import com.example.findly.R
+import com.example.findly.databinding.FragmentAddItemBinding
+import com.example.findly.domain.model.Category
+import com.example.findly.domain.model.ItemType
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
+
+class AddItemFragment : Fragment() {
+
+    private var _binding: FragmentAddItemBinding? = null
+    private val binding get() = _binding!!
+
+    private val viewModel: AddItemViewModel by viewModels()
+
+    // Tracks which type is selected
+    private var selectedType: ItemType = ItemType.LOST
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentAddItemBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupToolbar()
+        setupTypeToggle()
+        setupCategoryDropdown()
+        setupSubmitButton()
+        observeUiState()
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun setupTypeToggle() {
+        // Select LOST by default
+        binding.toggleItemType.check(R.id.btnTypeLost)
+
+        binding.toggleItemType.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                selectedType = when (checkedId) {
+                    R.id.btnTypeLost  -> ItemType.LOST
+                    R.id.btnTypeFound -> ItemType.FOUND
+                    else              -> ItemType.LOST
+                }
+            }
+        }
+    }
+
+    private fun setupCategoryDropdown() {
+        val categories = Category.entries.map { category ->
+            category.name
+                .lowercase()
+                .replaceFirstChar { it.uppercase() }
+        }
+
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            categories
+        )
+        binding.actvCategory.setAdapter(adapter)
+        // Select first item by default
+        binding.actvCategory.setText(categories.first(), false)
+    }
+
+    private fun setupSubmitButton() {
+        binding.btnSubmit.setOnClickListener {
+            val selectedCategoryName = binding.actvCategory.text.toString()
+                .uppercase()
+                .replace(" ", "_")
+
+            val category = try {
+                Category.valueOf(selectedCategoryName)
+            } catch (e: IllegalArgumentException) {
+                Category.OTHER
+            }
+
+            viewModel.submitItem(
+                type        = selectedType,
+                title       = binding.etTitle.text?.toString() ?: "",
+                description = binding.etDescription.text?.toString() ?: "",
+                category    = category,
+                locationName = binding.etLocation.text?.toString() ?: ""
+            )
+        }
+    }
+
+    private fun observeUiState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    when (state) {
+                        is AddItemUiState.Idle    -> showIdle()
+                        is AddItemUiState.Loading -> showLoading()
+                        is AddItemUiState.Success -> onSuccess()
+                        is AddItemUiState.Error   -> showError(state.message)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showIdle() {
+        binding.progressBar.visibility = View.GONE
+        binding.btnSubmit.isEnabled = true
+    }
+
+    private fun showLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.btnSubmit.isEnabled = false
+    }
+
+    private fun onSuccess() {
+        binding.progressBar.visibility = View.GONE
+        // Navigate back to feed — the new item will appear at the top
+        findNavController().navigateUp()
+    }
+
+    private fun showError(message: String) {
+        binding.progressBar.visibility = View.GONE
+        binding.btnSubmit.isEnabled = true
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+        viewModel.resetState()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}

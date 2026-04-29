@@ -1,1 +1,12 @@
-/build
+# IDE
+.idea/
+*.iml
+
+# Build outputs
+build/
+.gradle/
+local.properties
+
+# Keystore
+*.jks
+*.keystore

@@ -16,4 +16,11 @@
     <string name="posted_by">Posted by %1$s</string>
     <string name="contact_coming_soon">Chat feature coming soon</string>
     <string name="report_coming_soon">Reporting coming soon</string>
+    <string name="title_report_item">Report Item</string>
+    <string name="label_item_type">I want to report a…</string>
+    <string name="hint_title">Item title</string>
+    <string name="hint_description">Describe the item in detail…</string>
+    <string name="hint_category">Category</string>
+    <string name="hint_location">Where was it lost or found?</string>
+    <string name="btn_submit">Submit Report</string>
 </resources>
