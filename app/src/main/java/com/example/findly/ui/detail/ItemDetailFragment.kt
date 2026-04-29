@@ -18,7 +18,8 @@ import com.example.findly.domain.model.ItemType
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class ItemDetailFragment : Fragment() {
 
@@ -28,11 +29,12 @@ class ItemDetailFragment : Fragment() {
     private val args: ItemDetailFragmentArgs by navArgs()
 
     private val viewModel: ItemDetailViewModel by viewModels {
-        ItemDetailViewModel.Factory(args.itemId)
+        ItemDetailViewModel.Factory(requireActivity().application, args.itemId)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentItemDetailBinding.inflate(inflater, container, false)
         return binding.root
@@ -42,6 +44,7 @@ class ItemDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
         observeUiState()
+        observeSavedState()
     }
 
     private fun setupToolbar() {
@@ -59,6 +62,19 @@ class ItemDetailFragment : Fragment() {
                         is DetailUiState.Success -> showItem(state.item)
                         is DetailUiState.Error   -> showError(state.message)
                     }
+                }
+            }
+        }
+    }
+
+    private fun observeSavedState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isSaved.collect { isSaved ->
+                    binding.btnSave.setIconResource(
+                        if (isSaved) R.drawable.ic_bookmark
+                        else R.drawable.ic_bookmark_outline
+                    )
                 }
             }
         }
@@ -83,7 +99,6 @@ class ItemDetailFragment : Fragment() {
             .lowercase()
             .replaceFirstChar { it.uppercase() }
 
-        // Type chip
         binding.chipType.text = when (item.type) {
             ItemType.LOST  -> getString(R.string.type_lost)
             ItemType.FOUND -> getString(R.string.type_found)
@@ -103,11 +118,14 @@ class ItemDetailFragment : Fragment() {
             )
         )
 
-        // Buttons
+        binding.btnSave.setOnClickListener {
+            viewModel.toggleSaved()
+        }
+
         binding.btnContact.setOnClickListener {
-            // Chat navigation comes in the next step
             Snackbar.make(binding.root, getString(R.string.contact_coming_soon), Snackbar.LENGTH_SHORT).show()
         }
+
         binding.btnReport.setOnClickListener {
             Snackbar.make(binding.root, getString(R.string.report_coming_soon), Snackbar.LENGTH_SHORT).show()
         }

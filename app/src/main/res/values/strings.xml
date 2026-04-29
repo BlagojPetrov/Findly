@@ -29,4 +29,5 @@
     <string name="saved_empty_title">Nothing saved yet</string>
     <string name="saved_empty_subtitle">Tap the bookmark on any item to save it</string>
     <string name="profile_coming_soon">Profile coming soon</string>
+    <string name="btn_save">Save item</string>
 </resources>
