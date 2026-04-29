@@ -4,6 +4,7 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
+    <!-- Home tab -->
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.findly.ui.home.HomeFragment"
@@ -37,5 +38,17 @@
         android:id="@+id/addItemFragment"
         android:name="com.example.findly.ui.add.AddItemFragment"
         android:label="Report Item" />
+
+    <!-- Favorites tab -->
+    <fragment
+        android:id="@+id/savedFragment"
+        android:name="com.example.findly.ui.saved.SavedFragment"
+        android:label="Saved" />
+
+    <!-- Profile tab -->
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.findly.ui.profile.ProfileFragment"
+        android:label="Profile" />
 
 </navigation>
