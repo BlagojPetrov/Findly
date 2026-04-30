@@ -39,11 +39,19 @@
         android:name="com.example.findly.ui.add.AddItemFragment"
         android:label="Report Item" />
 
-    <!-- Favorites tab -->
+    <!-- Saved tab -->
     <fragment
         android:id="@+id/savedFragment"
         android:name="com.example.findly.ui.saved.SavedFragment"
-        android:label="Saved" />
+        android:label="Saved">
+        <action
+            android:id="@+id/action_saved_to_detail"
+            app:destination="@id/itemDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
     <!-- Profile tab -->
     <fragment

@@ -43,6 +43,7 @@ class ItemDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
+        setupClickListeners()    // ← all clicks set here, once, immediately
         observeUiState()
         observeSavedState()
     }
@@ -50,6 +51,25 @@ class ItemDetailFragment : Fragment() {
     private fun setupToolbar() {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun setupClickListeners() {
+        binding.btnSave.setOnClickListener {
+            viewModel.toggleSaved()
+            // Show feedback based on current state (before toggle)
+            val message = if (viewModel.isSaved.value) {
+                getString(R.string.item_unsaved)
+            } else {
+                getString(R.string.item_saved)
+            }
+            Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+        }
+        binding.btnContact.setOnClickListener {
+            Snackbar.make(binding.root, getString(R.string.contact_coming_soon), Snackbar.LENGTH_SHORT).show()
+        }
+        binding.btnReport.setOnClickListener {
+            Snackbar.make(binding.root, getString(R.string.report_coming_soon), Snackbar.LENGTH_SHORT).show()
         }
     }
 
@@ -117,18 +137,6 @@ class ItemDetailFragment : Fragment() {
                 }
             )
         )
-
-        binding.btnSave.setOnClickListener {
-            viewModel.toggleSaved()
-        }
-
-        binding.btnContact.setOnClickListener {
-            Snackbar.make(binding.root, getString(R.string.contact_coming_soon), Snackbar.LENGTH_SHORT).show()
-        }
-
-        binding.btnReport.setOnClickListener {
-            Snackbar.make(binding.root, getString(R.string.report_coming_soon), Snackbar.LENGTH_SHORT).show()
-        }
     }
 
     private fun showError(message: String) {

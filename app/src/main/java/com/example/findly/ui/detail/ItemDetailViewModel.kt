@@ -60,6 +60,8 @@ class ItemDetailViewModel(
             } else {
                 savedRepository.saveItem(currentState.item)
             }
+            // Temporarily log to confirm it's being called
+            android.util.Log.d("ItemDetailViewModel", "toggleSaved called, isSaved was: ${_isSaved.value}")
         }
     }
 

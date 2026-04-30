@@ -30,4 +30,6 @@
     <string name="saved_empty_subtitle">Tap the bookmark on any item to save it</string>
     <string name="profile_coming_soon">Profile coming soon</string>
     <string name="btn_save">Save item</string>
+    <string name="item_saved">Item saved successfully</string>
+    <string name="item_unsaved">Item removed from saved</string>
 </resources>
