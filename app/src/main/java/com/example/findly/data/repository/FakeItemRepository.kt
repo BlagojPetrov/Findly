@@ -37,6 +37,9 @@ class FakeItemRepository private constructor() : ItemRepository {
         _items.value = current
     }
 
+    override fun getUserItems(userId: String): Flow<List<Item>> =
+        _items.map { list -> list.filter { it.userId == userId } }
+
     companion object {
         @Volatile
         private var INSTANCE: FakeItemRepository? = null

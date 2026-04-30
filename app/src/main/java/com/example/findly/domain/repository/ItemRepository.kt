@@ -10,4 +10,5 @@ interface ItemRepository {
     fun searchItems(query: String): Flow<List<Item>>
     suspend fun getItemById(id: String): Item?
     suspend fun createItem(item: Item)
+    fun getUserItems(userId: String): Flow<List<Item>>
 }

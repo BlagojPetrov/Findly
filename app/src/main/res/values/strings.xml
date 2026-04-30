@@ -32,4 +32,13 @@
     <string name="btn_save">Save item</string>
     <string name="item_saved">Item saved successfully</string>
     <string name="item_unsaved">Item removed from saved</string>
+    <string name="guest_user">Guest User</string>
+    <string name="not_signed_in">Not signed in</string>
+    <string name="btn_sign_in">Sign In</string>
+    <string name="btn_sign_out">Sign Out</string>
+    <string name="label_posts">Posts</string>
+    <string name="label_saved">Saved</string>
+    <string name="label_my_posts">My Posts</string>
+    <string name="no_posts_yet">You haven\'t posted anything yet</string>
+    <string name="auth_coming_soon">Authentication coming soon</string>
 </resources>
