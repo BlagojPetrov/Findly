@@ -7,15 +7,15 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface SavedItemDao {
 
-    @Query("SELECT * FROM saved_items ORDER BY savedAt DESC")
-    fun getAllSavedItems(): Flow<List<SavedItemEntity>>
+    @Query("SELECT * FROM saved_items WHERE userId = :userId ORDER BY savedAt DESC")
+    fun getAllSavedItems(userId: String): Flow<List<SavedItemEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveItem(item: SavedItemEntity)
 
-    @Query("DELETE FROM saved_items WHERE id = :itemId")
-    suspend fun removeSavedItem(itemId: String)
+    @Query("DELETE FROM saved_items WHERE id = :itemId AND userId = :userId")
+    suspend fun removeSavedItem(itemId: String, userId: String)
 
-    @Query("SELECT EXISTS(SELECT 1 FROM saved_items WHERE id = :itemId)")
-    fun isItemSaved(itemId: String): Flow<Boolean>
+    @Query("SELECT EXISTS(SELECT 1 FROM saved_items WHERE id = :itemId AND userId = :userId)")
+    fun isItemSaved(itemId: String, userId: String): Flow<Boolean>
 }

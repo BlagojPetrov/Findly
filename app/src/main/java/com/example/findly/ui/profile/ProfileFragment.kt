@@ -1,5 +1,6 @@
 package com.example.findly.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +14,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findly.R
 import com.example.findly.databinding.FragmentProfileBinding
+import com.example.findly.data.repository.AuthRepositoryImpl
+import com.example.findly.ui.auth.AuthActivity
 import com.example.findly.ui.home.ItemFeedAdapter
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
@@ -23,6 +26,7 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ProfileViewModel by viewModels()
+    private val authRepository = AuthRepositoryImpl()
     private lateinit var adapter: ItemFeedAdapter
 
     override fun onCreateView(
@@ -55,9 +59,25 @@ class ProfileFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.btnSignOut.setOnClickListener {
-            // Wired to real auth after Firebase integration
-            Snackbar.make(binding.root, getString(R.string.auth_coming_soon), Snackbar.LENGTH_SHORT).show()
+            showSignOutDialog()
         }
+    }
+
+    private fun showSignOutDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.dialog_sign_out_title))
+            .setMessage(getString(R.string.dialog_sign_out_message))
+            .setPositiveButton(getString(R.string.btn_sign_out)) { _, _ ->
+                authRepository.signOut()
+                goToAuth()
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
+    }
+
+    private fun goToAuth() {
+        startActivity(Intent(requireContext(), AuthActivity::class.java))
+        requireActivity().finish()
     }
 
     private fun observeUiState() {
@@ -75,9 +95,16 @@ class ProfileFragment : Fragment() {
 
     private fun showProfile(state: ProfileUiState.Success) {
         binding.tvDisplayName.text = state.displayName
-        binding.tvEmail.text = state.email ?: getString(R.string.not_signed_in)
+        binding.tvEmail.text = state.email ?: getString(R.string.anonymous_user)
         binding.tvPostCount.text = state.myItems.size.toString()
         binding.tvSavedCount.text = state.savedCount.toString()
+
+        // Change button text based on auth state
+        binding.btnSignOut.text = if (state.isAnonymous) {
+            getString(R.string.btn_sign_in)
+        } else {
+            getString(R.string.btn_sign_out)
+        }
 
         if (state.myItems.isEmpty()) {
             binding.recyclerMyPosts.visibility = View.GONE

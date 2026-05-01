@@ -9,7 +9,7 @@ import com.example.findly.data.local.entity.SavedItemEntity
 
 @Database(
     entities = [SavedItemEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class FindlyDatabase : RoomDatabase() {
@@ -26,7 +26,9 @@ abstract class FindlyDatabase : RoomDatabase() {
                     context.applicationContext,
                     FindlyDatabase::class.java,
                     "findly_database"
-                ).build().also { INSTANCE = it }
+                )
+                    .fallbackToDestructiveMigration()
+                    .build().also { INSTANCE = it }
             }
         }
     }

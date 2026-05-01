@@ -7,13 +7,13 @@ import androidx.room.PrimaryKey
 data class SavedItemEntity(
     @PrimaryKey
     val id: String,
+    val userId: String,
     val type: String,
     val title: String,
     val description: String,
     val category: String,
     val imageUrl: String?,
     val locationName: String?,
-    val userId: String,
     val userDisplayName: String,
     val timestamp: Long,
     val savedAt: Long = System.currentTimeMillis()

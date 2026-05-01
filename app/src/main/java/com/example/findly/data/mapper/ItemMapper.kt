@@ -5,15 +5,15 @@ import com.example.findly.domain.model.Category
 import com.example.findly.domain.model.Item
 import com.example.findly.domain.model.ItemType
 
-fun Item.toSavedEntity(): SavedItemEntity = SavedItemEntity(
+fun Item.toSavedEntity(userId: String): SavedItemEntity = SavedItemEntity(
     id              = id,
+    userId          = userId,
     type            = type.name,
     title           = title,
     description     = description,
     category        = category.name,
     imageUrl        = imageUrl,
     locationName    = locationName,
-    userId          = userId,
     userDisplayName = userDisplayName,
     timestamp       = timestamp
 )

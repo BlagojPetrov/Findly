@@ -9,12 +9,11 @@ import com.example.findly.data.repository.SavedRepositoryImpl
 import com.example.findly.domain.model.Item
 import com.example.findly.domain.repository.ItemRepository
 import com.example.findly.domain.repository.SavedRepository
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 
 class ProfileViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -23,17 +22,22 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
         FindlyDatabase.getInstance(application).savedItemDao()
     )
 
-    // Hardcoded for now — replaced with real auth data after Firebase integration
-    val currentUserId = "current_user"
+    // ← this was missing from your file
+    private val firebaseUser = FirebaseAuth.getInstance().currentUser
+
+    val currentUserId: String = firebaseUser?.uid ?: "guest"
 
     val uiState: StateFlow<ProfileUiState> = combine(
         itemRepository.getUserItems(currentUserId),
-        savedRepository.getSavedItems()
+        savedRepository.getSavedItems(currentUserId)
     ) { myItems, savedItems ->
         ProfileUiState.Success(
-            displayName = "Guest User",
-            email       = null,
-            photoUrl    = null,
+            displayName = firebaseUser?.displayName
+                ?: firebaseUser?.email?.substringBefore("@")
+                ?: "Guest User",
+            email       = firebaseUser?.email,
+            photoUrl    = firebaseUser?.photoUrl?.toString(),
+            isAnonymous = firebaseUser?.isAnonymous ?: true,
             myItems     = myItems,
             savedCount  = savedItems.size
         )
@@ -50,6 +54,7 @@ sealed class ProfileUiState {
         val displayName: String,
         val email: String?,
         val photoUrl: String?,
+        val isAnonymous: Boolean,
         val myItems: List<Item>,
         val savedCount: Int
     ) : ProfileUiState()

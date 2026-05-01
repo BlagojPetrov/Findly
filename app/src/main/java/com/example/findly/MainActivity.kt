@@ -24,6 +24,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Temporary Firebase connection test — remove after confirming
+        val auth = com.google.firebase.auth.FirebaseAuth.getInstance()
+        android.util.Log.d("Firebase", "Firebase connected. Current user: ${auth.currentUser?.uid ?: "none"}")
+
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController

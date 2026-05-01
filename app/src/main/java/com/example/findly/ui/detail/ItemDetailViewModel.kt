@@ -35,14 +35,16 @@ class ItemDetailViewModel(
         loadItem()
     }
 
+    private val currentUserId: String =
+        com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: "guest"
+
     private fun loadItem() {
         viewModelScope.launch {
             val item = itemRepository.getItemById(itemId)
             _uiState.value = if (item != null) {
-                savedRepository.isItemSaved(itemId)
+                savedRepository.isItemSaved(itemId, currentUserId)
                     .onEach { _isSaved.value = it }
                     .launchIn(viewModelScope)
-
                 DetailUiState.Success(item)
             } else {
                 DetailUiState.Error("Item not found")
@@ -53,15 +55,12 @@ class ItemDetailViewModel(
     fun toggleSaved() {
         val currentState = _uiState.value
         if (currentState !is DetailUiState.Success) return
-
         viewModelScope.launch {
             if (_isSaved.value) {
-                savedRepository.removeSavedItem(itemId)
+                savedRepository.removeSavedItem(itemId, currentUserId)
             } else {
-                savedRepository.saveItem(currentState.item)
+                savedRepository.saveItem(currentState.item, currentUserId)
             }
-            // Temporarily log to confirm it's being called
-            android.util.Log.d("ItemDetailViewModel", "toggleSaved called, isSaved was: ${_isSaved.value}")
         }
     }
 

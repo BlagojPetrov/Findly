@@ -12,17 +12,17 @@ class SavedRepositoryImpl(
     private val dao: SavedItemDao
 ) : SavedRepository {
 
-    override fun getSavedItems(): Flow<List<Item>> =
-        dao.getAllSavedItems().map { entities ->
+    override fun getSavedItems(userId: String): Flow<List<Item>> =
+        dao.getAllSavedItems(userId).map { entities ->
             entities.map { it.toDomain() }
         }
 
-    override fun isItemSaved(itemId: String): Flow<Boolean> =
-        dao.isItemSaved(itemId)
+    override fun isItemSaved(itemId: String, userId: String): Flow<Boolean> =
+        dao.isItemSaved(itemId, userId)
 
-    override suspend fun saveItem(item: Item) =
-        dao.saveItem(item.toSavedEntity())
+    override suspend fun saveItem(item: Item, userId: String) =
+        dao.saveItem(item.toSavedEntity(userId))
 
-    override suspend fun removeSavedItem(itemId: String) =
-        dao.removeSavedItem(itemId)
+    override suspend fun removeSavedItem(itemId: String, userId: String) =
+        dao.removeSavedItem(itemId, userId)
 }

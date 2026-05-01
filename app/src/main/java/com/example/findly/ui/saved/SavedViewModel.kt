@@ -15,11 +15,14 @@ import kotlinx.coroutines.launch
 
 class SavedViewModel(application: Application) : AndroidViewModel(application) {
 
+    private val currentUserId: String =
+        com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: "guest"
+
     private val repository: SavedRepository = SavedRepositoryImpl(
         FindlyDatabase.getInstance(application).savedItemDao()
     )
 
-    val uiState: StateFlow<SavedUiState> = repository.getSavedItems()
+    val uiState: StateFlow<SavedUiState> = repository.getSavedItems(currentUserId)
         .map { items ->
             if (items.isEmpty()) SavedUiState.Empty
             else SavedUiState.Success(items)
@@ -32,7 +35,7 @@ class SavedViewModel(application: Application) : AndroidViewModel(application) {
 
     fun removeSavedItem(itemId: String) {
         viewModelScope.launch {
-            repository.removeSavedItem(itemId)
+            repository.removeSavedItem(itemId, currentUserId)
         }
     }
 }
