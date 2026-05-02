@@ -2,7 +2,7 @@ package com.example.findly.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.findly.data.repository.FakeItemRepository
+import com.example.findly.data.repository.FirestoreItemRepository
 import com.example.findly.domain.model.Item
 import com.example.findly.domain.model.ItemType
 import com.example.findly.domain.repository.ItemRepository
@@ -15,7 +15,7 @@ class HomeViewModel : ViewModel() {
 
     // Will be injected via Hilt later — for now we instantiate directly
 
-    private val repository: ItemRepository = FakeItemRepository.getInstance()
+    private val repository: ItemRepository = FirestoreItemRepository()
 
     private val _searchQuery = MutableStateFlow("")
     private val _activeFilter = MutableStateFlow<ItemType?>(null)  // null = show all

@@ -60,4 +60,11 @@
     <string name="dialog_sign_out_message">Are you sure you want to sign out?</string>
     <string name="cancel">Cancel</string>
     <string name="anonymous_user">Anonymous user</string>
+
+    <string name="label_photo">Photo (optional)</string>
+    <string name="label_add_photo">Tap to add a photo</string>
+    <string name="dialog_pick_image_title">Add Photo</string>
+    <string name="option_camera">Take a photo</string>
+    <string name="option_gallery">Choose from gallery</string>
+    <string name="camera_permission_denied">Camera permission is required to take photos</string>
 </resources>

@@ -12,6 +12,8 @@ import com.example.findly.domain.model.ItemType
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import android.view.View
+import coil.load
 
 class ItemFeedAdapter(
     private val onItemClick: (Item) -> Unit
@@ -57,6 +59,17 @@ class ItemFeedAdapter(
                     }
                 )
             )
+
+            // Image
+            if (item.imageUrl != null) {
+                binding.ivItemImage.visibility = View.VISIBLE
+                binding.ivItemImage.load(item.imageUrl) {
+                    crossfade(true)
+                    placeholder(R.drawable.ic_add_photo)
+                }
+            } else {
+                binding.ivItemImage.visibility = View.GONE
+            }
 
             binding.root.setOnClickListener { onItemClick(item) }
         }

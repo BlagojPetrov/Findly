@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.findly.data.local.FindlyDatabase
-import com.example.findly.data.repository.FakeItemRepository
+import com.example.findly.data.repository.FirestoreItemRepository
 import com.example.findly.data.repository.SavedRepositoryImpl
 import com.example.findly.domain.model.Item
 import com.example.findly.domain.repository.ItemRepository
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 class ItemDetailViewModel(
     application: Application,
     private val itemId: String,
-    private val itemRepository: ItemRepository = FakeItemRepository.getInstance(),
+    private val itemRepository: ItemRepository = FirestoreItemRepository(),
     private val savedRepository: SavedRepository = SavedRepositoryImpl(
         FindlyDatabase.getInstance(application).savedItemDao()
     )

@@ -1,23 +1,39 @@
 package com.example.findly.ui.add
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import android.net.Uri
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.findly.data.repository.FakeItemRepository
+import com.example.findly.data.remote.storage.StorageDataSource
+import com.example.findly.data.repository.FirestoreItemRepository
 import com.example.findly.domain.model.Category
 import com.example.findly.domain.model.Item
 import com.example.findly.domain.model.ItemType
 import com.example.findly.domain.repository.ItemRepository
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.util.UUID
 
-class AddItemViewModel : ViewModel() {
+class AddItemViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository: ItemRepository = FakeItemRepository.getInstance()
+    private val repository: ItemRepository = FirestoreItemRepository()
+    private val storageDataSource = StorageDataSource()
 
     private val _uiState = MutableStateFlow<AddItemUiState>(AddItemUiState.Idle)
     val uiState: StateFlow<AddItemUiState> = _uiState
+
+    // Holds the selected image URI before upload
+    private val _selectedImageUri = MutableStateFlow<Uri?>(null)
+    val selectedImageUri: StateFlow<Uri?> = _selectedImageUri
+
+    fun onImageSelected(uri: Uri) {
+        _selectedImageUri.value = uri
+    }
+
+    fun clearSelectedImage() {
+        _selectedImageUri.value = null
+    }
 
     fun submitItem(
         type: ItemType,
@@ -26,7 +42,6 @@ class AddItemViewModel : ViewModel() {
         category: Category,
         locationName: String
     ) {
-        // Basic validation
         if (title.isBlank()) {
             _uiState.value = AddItemUiState.Error("Title cannot be empty")
             return
@@ -42,19 +57,31 @@ class AddItemViewModel : ViewModel() {
 
         _uiState.value = AddItemUiState.Loading
 
+        val firebaseUser = FirebaseAuth.getInstance().currentUser
+        val userId = firebaseUser?.uid ?: "guest"
+        val userDisplayName = firebaseUser?.displayName
+            ?: firebaseUser?.email?.substringBefore("@")
+            ?: "Anonymous"
+
         viewModelScope.launch {
             try {
+                // Upload image first if one is selected
+                val imageUrl = _selectedImageUri.value?.let { uri ->
+                    storageDataSource.uploadItemImage(uri)
+                        .getOrNull()
+                }
+
                 val newItem = Item(
-                    id = UUID.randomUUID().toString(),
-                    type = type,
-                    title = title.trim(),
-                    description = description.trim(),
-                    category = category,
-                    imageUrl = null,
-                    locationName = locationName.trim(),
-                    userId = "current_user",        // replaced with real auth later
-                    userDisplayName = "You",        // replaced with real auth later
-                    timestamp = System.currentTimeMillis()
+                    id              = "",
+                    type            = type,
+                    title           = title.trim(),
+                    description     = description.trim(),
+                    category        = category,
+                    imageUrl        = imageUrl,
+                    locationName    = locationName.trim(),
+                    userId          = userId,
+                    userDisplayName = userDisplayName,
+                    timestamp       = System.currentTimeMillis()
                 )
                 repository.createItem(newItem)
                 _uiState.value = AddItemUiState.Success

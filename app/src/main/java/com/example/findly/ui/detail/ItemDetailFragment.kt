@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import coil.load
 
 class ItemDetailFragment : Fragment() {
 
@@ -137,6 +138,16 @@ class ItemDetailFragment : Fragment() {
                 }
             )
         )
+
+        // Image
+        if (item.imageUrl != null) {
+            binding.ivItemImage.visibility = View.VISIBLE
+            binding.ivItemImage.load(item.imageUrl) {
+                crossfade(true)
+            }
+        } else {
+            binding.ivItemImage.visibility = View.GONE
+        }
     }
 
     private fun showError(message: String) {

@@ -36,6 +36,14 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/DEPENDENCIES"
+        }
+    }
+
 }
 
 dependencies {
@@ -73,4 +81,7 @@ dependencies {
 
     // Google Sign-In
     implementation(libs.play.services.auth)
+
+
+    implementation(libs.firebase.storage)
 }
