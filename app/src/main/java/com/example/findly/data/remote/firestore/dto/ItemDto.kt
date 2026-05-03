@@ -15,6 +15,7 @@ data class ItemDto(
     val locationName: String? = null,
     val userId: String = "",
     val userDisplayName: String = "",
+    val userPhotoUrl: String? = null,
     @ServerTimestamp
     val timestamp: Timestamp? = null,
     val status: String = "ACTIVE",

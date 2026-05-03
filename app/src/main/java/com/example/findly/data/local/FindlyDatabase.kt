@@ -9,7 +9,7 @@ import com.example.findly.data.local.entity.SavedItemEntity
 
 @Database(
     entities = [SavedItemEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class FindlyDatabase : RoomDatabase() {

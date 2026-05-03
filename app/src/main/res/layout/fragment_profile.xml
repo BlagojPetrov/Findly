@@ -44,15 +44,42 @@
                     android:padding="24dp">
 
                     <!-- Avatar -->
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/ivAvatar"
+                    <!-- Avatar with edit overlay -->
+                    <FrameLayout
                         android:layout_width="88dp"
-                        android:layout_height="88dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_person"
-                        app:shapeAppearanceOverlay="@style/CircleImageView"
-                        app:strokeColor="?attr/colorOutlineVariant"
-                        app:strokeWidth="1dp" />
+                        android:layout_height="88dp">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/ivAvatar"
+                            android:layout_width="88dp"
+                            android:layout_height="88dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_person"
+                            app:shapeAppearanceOverlay="@style/CircleImageView"
+                            app:strokeColor="?attr/colorOutlineVariant"
+                            app:strokeWidth="1dp" />
+
+                        <!-- Edit overlay -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardEditPhoto"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_gravity="bottom|end"
+                            app:cardCornerRadius="14dp"
+                            app:cardBackgroundColor="?attr/colorPrimary"
+                            app:cardElevation="2dp">
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_add_photo"
+                                app:tint="?attr/colorOnPrimary"
+                                android:contentDescription="@null" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </FrameLayout>
 
                     <!-- Display name -->
                     <TextView

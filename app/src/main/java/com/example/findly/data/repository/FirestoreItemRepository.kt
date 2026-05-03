@@ -31,4 +31,8 @@ class FirestoreItemRepository(
 
     override fun getUserItems(userId: String): Flow<List<Item>> =
         source.observeUserItems(userId).map { dtos -> dtos.map { it.toDomain() } }
+
+    override suspend fun deleteItem(itemId: String) {
+        source.deleteItem(itemId)
+    }
 }

@@ -82,6 +82,10 @@ class FirestoreItemSource {
         return doc.id
     }
 
+    suspend fun deleteItem(itemId: String) {
+        itemsCollection.document(itemId).delete().await()
+    }
+
     fun searchItems(query: String): Flow<List<ItemDto>> = callbackFlow {
         val listener = itemsCollection
             .whereEqualTo("status", "ACTIVE")

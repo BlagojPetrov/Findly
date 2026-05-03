@@ -15,6 +15,7 @@ data class SavedItemEntity(
     val imageUrl: String?,
     val locationName: String?,
     val userDisplayName: String,
+    val userPhotoUrl: String? = null,
     val timestamp: Long,
     val savedAt: Long = System.currentTimeMillis()
 )

@@ -67,4 +67,16 @@
     <string name="option_camera">Take a photo</string>
     <string name="option_gallery">Choose from gallery</string>
     <string name="camera_permission_denied">Camera permission is required to take photos</string>
+
+    <string name="btn_delete">Delete Post</string>
+    <string name="dialog_delete_title">Delete Post</string>
+    <string name="dialog_delete_message">Are you sure you want to delete this post? This cannot be undone.</string>
+
+    <string name="uploading_photo">Uploading photo…</string>
+    <string name="photo_updated">Profile photo updated</string>
+
+    <string name="option_remove_photo">Remove photo</string>
+    <string name="dialog_remove_photo_title">Remove Profile Photo</string>
+    <string name="dialog_remove_photo_message">Are you sure you want to remove your profile photo?</string>
+    <string name="btn_remove">Remove</string>
 </resources>

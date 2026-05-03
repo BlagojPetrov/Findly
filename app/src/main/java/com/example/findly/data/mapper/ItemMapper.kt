@@ -15,6 +15,7 @@ fun Item.toSavedEntity(userId: String): SavedItemEntity = SavedItemEntity(
     imageUrl        = imageUrl,
     locationName    = locationName,
     userDisplayName = userDisplayName,
+    userPhotoUrl    = userPhotoUrl,
     timestamp       = timestamp
 )
 
@@ -28,5 +29,6 @@ fun SavedItemEntity.toDomain(): Item = Item(
     locationName    = locationName,
     userId          = userId,
     userDisplayName = userDisplayName,
+    userPhotoUrl    = userPhotoUrl,
     timestamp       = timestamp
 )

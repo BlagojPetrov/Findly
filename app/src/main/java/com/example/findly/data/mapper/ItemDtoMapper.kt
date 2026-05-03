@@ -15,6 +15,7 @@ fun ItemDto.toDomain(): Item = Item(
     locationName    = locationName,
     userId          = userId,
     userDisplayName = userDisplayName,
+    userPhotoUrl    = userPhotoUrl,
     timestamp       = timestamp?.toDate()?.time ?: System.currentTimeMillis()
 )
 
@@ -28,6 +29,7 @@ fun Item.toDto(): ItemDto = ItemDto(
     locationName    = locationName,
     userId          = userId,
     userDisplayName = userDisplayName,
+    userPhotoUrl    = userPhotoUrl,
     keywords        = extractKeywords(title, description)
 )
 

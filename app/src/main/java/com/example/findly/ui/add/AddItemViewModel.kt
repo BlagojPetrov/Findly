@@ -65,27 +65,51 @@ class AddItemViewModel(application: Application) : AndroidViewModel(application)
 
         viewModelScope.launch {
             try {
-                // Upload image first if one is selected
-                val imageUrl = _selectedImageUri.value?.let { uri ->
-                    storageDataSource.uploadItemImage(uri)
-                        .getOrNull()
+                val firebaseUser = FirebaseAuth.getInstance().currentUser
+                val userId = firebaseUser?.uid ?: "guest"
+                val userDisplayName = firebaseUser?.displayName
+                    ?: firebaseUser?.email?.substringBefore("@")
+                    ?: "Anonymous"
+                val userPhotoUrl = firebaseUser?.photoUrl?.toString()
+
+                // Upload image and wait for URL before proceeding
+                var imageUrl: String? = null
+                val imageUri = _selectedImageUri.value
+
+                if (imageUri != null) {
+                    android.util.Log.d("AddItemVM", "Uploading image: $imageUri")
+                    val uploadResult = storageDataSource.uploadItemImage(imageUri)
+                    if (uploadResult.isSuccess) {
+                        imageUrl = uploadResult.getOrNull()
+                        android.util.Log.d("AddItemVM", "Image URL: $imageUrl")
+                    } else {
+                        android.util.Log.e("AddItemVM", "Upload failed: ${uploadResult.exceptionOrNull()?.message}")
+                        _uiState.value = AddItemUiState.Error("Image upload failed. Try again.")
+                        return@launch          // ← stop here, don't save to Firestore
+                    }
                 }
 
+                // Only reaches here after image is uploaded (or no image selected)
                 val newItem = Item(
                     id              = "",
                     type            = type,
                     title           = title.trim(),
                     description     = description.trim(),
                     category        = category,
-                    imageUrl        = imageUrl,
+                    imageUrl        = imageUrl,    // ← guaranteed to be the real URL or null
                     locationName    = locationName.trim(),
                     userId          = userId,
                     userDisplayName = userDisplayName,
+                    userPhotoUrl    = userPhotoUrl,
                     timestamp       = System.currentTimeMillis()
                 )
+
+                android.util.Log.d("AddItemVM", "Saving item with imageUrl: $imageUrl")
                 repository.createItem(newItem)
                 _uiState.value = AddItemUiState.Success
+
             } catch (e: Exception) {
+                android.util.Log.e("AddItemVM", "Error: ${e.message}", e)
                 _uiState.value = AddItemUiState.Error(e.message ?: "Something went wrong")
             }
         }

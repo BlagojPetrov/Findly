@@ -30,5 +30,10 @@ class AuthRepositoryImpl(
     override suspend fun signInAnonymously() =
         dataSource.signInAnonymously()
 
+    override suspend fun updateProfilePhoto(photoUrl: String) =
+        dataSource.updateProfilePhoto(photoUrl)
+
+    override suspend fun removeProfilePhoto() =
+        dataSource.removeProfilePhoto()
     override fun signOut() = dataSource.signOut()
 }

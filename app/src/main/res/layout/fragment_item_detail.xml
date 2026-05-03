@@ -180,12 +180,15 @@
                 android:gravity="center_vertical"
                 android:layout_marginTop="12dp">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivPosterAvatar"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/ic_person"
-                    app:tint="?attr/colorOnSurfaceVariant"
-                    android:contentDescription="@null" />
+                    app:shapeAppearanceOverlay="@style/CircleImageView"
+                    app:strokeColor="?attr/colorOutlineVariant"
+                    app:strokeWidth="1dp" />
 
                 <TextView
                     android:id="@+id/tvPostedBy"
@@ -220,6 +223,18 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/btn_report"
                 android:textColor="?attr/colorError" />
+
+            <!-- Delete button (only shown for item owner) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDelete"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/btn_delete"
+                android:textColor="?attr/colorError"
+                app:strokeColor="?attr/colorError"
+                android:visibility="gone" />
 
         </LinearLayout>
 

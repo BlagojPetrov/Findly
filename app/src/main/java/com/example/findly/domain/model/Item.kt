@@ -10,6 +10,7 @@ data class Item(
     val locationName: String?,
     val userId: String,
     val userDisplayName: String,
+    val userPhotoUrl: String? = null,
     val timestamp: Long
 )
 

@@ -15,6 +15,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.SharingStarted
 
 class ItemDetailViewModel(
     application: Application,
@@ -37,6 +40,28 @@ class ItemDetailViewModel(
 
     private val currentUserId: String =
         com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: "guest"
+
+
+    val isOwnItem: StateFlow<Boolean> = _uiState
+        .map { state ->
+            state is DetailUiState.Success && state.item.userId == currentUserId
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = false
+        )
+
+    fun deleteItem(onSuccess: () -> Unit, onError: (String) -> Unit) {
+        viewModelScope.launch {
+            try {
+                itemRepository.deleteItem(itemId)
+                onSuccess()
+            } catch (e: Exception) {
+                onError(e.message ?: "Failed to delete item")
+            }
+        }
+    }
 
     private fun loadItem() {
         viewModelScope.launch {

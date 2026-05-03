@@ -40,6 +40,12 @@ class FakeItemRepository private constructor() : ItemRepository {
     override fun getUserItems(userId: String): Flow<List<Item>> =
         _items.map { list -> list.filter { it.userId == userId } }
 
+    override suspend fun deleteItem(itemId: String) {
+        val current = _items.value.toMutableList()
+        current.removeAll { it.id == itemId }
+        _items.value = current
+    }
+
     companion object {
         @Volatile
         private var INSTANCE: FakeItemRepository? = null

@@ -70,5 +70,31 @@ class AuthDataSource {
         }
     }
 
+    suspend fun updateProfilePhoto(photoUrl: String): Result<Unit> {
+        return try {
+            val user = auth.currentUser ?: return Result.failure(Exception("Not signed in"))
+            val profileUpdates = com.google.firebase.auth.UserProfileChangeRequest.Builder()
+                .setPhotoUri(android.net.Uri.parse(photoUrl))
+                .build()
+            user.updateProfile(profileUpdates).await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun removeProfilePhoto(): Result<Unit> {
+        return try {
+            val user = auth.currentUser ?: return Result.failure(Exception("Not signed in"))
+            val profileUpdates = com.google.firebase.auth.UserProfileChangeRequest.Builder()
+                .setPhotoUri(null)
+                .build()
+            user.updateProfile(profileUpdates).await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     fun signOut() = auth.signOut()
 }

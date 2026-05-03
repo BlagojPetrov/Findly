@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import coil.load
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ItemDetailFragment : Fragment() {
 
@@ -47,6 +48,18 @@ class ItemDetailFragment : Fragment() {
         setupClickListeners()    // ← all clicks set here, once, immediately
         observeUiState()
         observeSavedState()
+        observeOwnership()
+    }
+
+    private fun observeOwnership() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isOwnItem.collect { isOwn ->
+                    binding.btnDelete.visibility =
+                        if (isOwn) View.VISIBLE else View.GONE
+                }
+            }
+        }
     }
 
     private fun setupToolbar() {
@@ -71,6 +84,21 @@ class ItemDetailFragment : Fragment() {
         }
         binding.btnReport.setOnClickListener {
             Snackbar.make(binding.root, getString(R.string.report_coming_soon), Snackbar.LENGTH_SHORT).show()
+        }
+        binding.btnDelete.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(getString(R.string.dialog_delete_title))
+                .setMessage(getString(R.string.dialog_delete_message))
+                .setPositiveButton(getString(R.string.btn_delete)) { _, _ ->
+                    viewModel.deleteItem(
+                        onSuccess = { findNavController().navigateUp() },
+                        onError   = { message ->
+                            Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+                        }
+                    )
+                }
+                .setNegativeButton(getString(R.string.cancel), null)
+                .show()
         }
     }
 
@@ -148,7 +176,20 @@ class ItemDetailFragment : Fragment() {
         } else {
             binding.ivItemImage.visibility = View.GONE
         }
+
+        // Poster avatar
+        if (item.userPhotoUrl != null) {
+            binding.ivPosterAvatar.load(item.userPhotoUrl) {
+                crossfade(true)
+                transformations(coil.transform.CircleCropTransformation())
+                placeholder(R.drawable.ic_person)
+                error(R.drawable.ic_person)
+            }
+        } else {
+            binding.ivPosterAvatar.setImageResource(R.drawable.ic_person)
+        }
     }
+
 
     private fun showError(message: String) {
         binding.progressBar.visibility = View.GONE
