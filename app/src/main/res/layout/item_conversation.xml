@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="12dp">
+
+    <ImageView
+        android:id="@+id/imageViewAvatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:contentDescription="@string/user_avatar"
+        android:src="@drawable/ic_person"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewUserName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:textColor="?attr/colorOnSurface"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/textViewTimestamp"
+        app:layout_constraintStart_toEndOf="@id/imageViewAvatar"
+        app:layout_constraintTop_toTopOf="@id/imageViewAvatar"
+        tools:text="John Doe" />
+
+    <TextView
+        android:id="@+id/textViewTimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:textColor="?attr/colorOnSurface"
+        app:layout_constraintBaseline_toBaselineOf="@id/textViewUserName"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="12:30" />
+
+    <TextView
+        android:id="@+id/textViewItemTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="2dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:textColor="?attr/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageViewAvatar"
+        app:layout_constraintTop_toBottomOf="@id/textViewUserName"
+        tools:text="Lost: Black Wallet" />
+
+    <TextView
+        android:id="@+id/textViewLastMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="2dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:textColor="?attr/colorOnSurface"
+        app:layout_constraintEnd_toStartOf="@id/textViewUnreadCount"
+        app:layout_constraintStart_toEndOf="@id/imageViewAvatar"
+        app:layout_constraintTop_toBottomOf="@id/textViewItemTitle"
+        tools:text="Is this still available?" />
+
+    <TextView
+        android:id="@+id/textViewUnreadCount"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/bg_unread_badge"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:textColor="@android:color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/textViewLastMessage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textViewLastMessage"
+        tools:text="3"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,11 @@
         android:title="@string/nav_saved" />
 
     <item
+        android:id="@+id/conversationsFragment"
+        android:icon="@drawable/ic_message"
+        android:title="@string/nav_messages" />
+
+    <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/ic_person"
         android:title="@string/nav_profile" />

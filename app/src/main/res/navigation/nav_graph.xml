@@ -32,6 +32,13 @@
         <argument
             android:name="itemId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_detail_to_chat"
+            app:destination="@id/chatFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -65,6 +72,35 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <!-- Messages tab -->
+    <fragment
+        android:id="@+id/conversationsFragment"
+        android:name="com.example.findly.ui.messages.ConversationsFragment"
+        android:label="Messages">
+        <action
+            android:id="@+id/action_conversations_to_chat"
+            app:destination="@id/chatFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.findly.ui.messages.ChatFragment"
+        android:label="Chat">
+        <argument
+            android:name="conversationId"
+            app:argType="string" />
+        <argument
+            android:name="otherUserDisplayName"
+            app:argType="string" />
+        <argument
+            android:name="itemTitle"
+            app:argType="string" />
     </fragment>
 
 </navigation>

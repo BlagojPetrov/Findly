@@ -79,4 +79,14 @@
     <string name="dialog_remove_photo_title">Remove Profile Photo</string>
     <string name="dialog_remove_photo_message">Are you sure you want to remove your profile photo?</string>
     <string name="btn_remove">Remove</string>
+
+    <!-- Messaging -->
+    <string name="nav_messages">Messages</string>
+    <string name="messages">Messages</string>
+    <string name="no_conversations">No conversations yet</string>
+    <string name="no_messages">No messages yet. Say hello!</string>
+    <string name="type_a_message">Type a message…</string>
+    <string name="send">Send</string>
+    <string name="back">Back</string>
+    <string name="user_avatar">User avatar</string>
 </resources>

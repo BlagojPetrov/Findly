@@ -14,5 +14,8 @@
 .cxx
 local.properties
 
+node_modules/
+functions/node_modules/
+
 # Firebase
 google-services.json
