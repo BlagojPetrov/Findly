@@ -30,6 +30,7 @@ class MessageRepositoryImpl(
         conversationId: String,
         senderId: String,
         senderDisplayName: String,
+        senderPhotoUrl: String?,
         text: String
     ): Result<Unit> {
         return try {
@@ -37,6 +38,7 @@ class MessageRepositoryImpl(
                 conversationId = conversationId,
                 senderId = senderId,
                 senderDisplayName = senderDisplayName,
+                senderPhotoUrl = senderPhotoUrl,
                 text = text,
                 timestamp = System.currentTimeMillis(),
                 read = false

@@ -11,6 +11,7 @@ fun MessageDto.toDomain(): Message {
         conversationId = conversationId,
         senderId = senderId,
         senderDisplayName = senderDisplayName,
+        senderPhotoUrl = senderPhotoUrl,
         text = text,
         timestamp = timestamp,
         read = read

@@ -47,6 +47,7 @@ class ConversationsFragment : Fragment() {
                 .actionConversationsToChat(
                     conversationId = conversation.id,
                     otherUserDisplayName = conversation.otherUserDisplayName,
+                    otherUserPhotoUrl = conversation.otherUserPhotoUrl,
                     itemTitle = conversation.itemTitle
                 )
             findNavController().navigate(action)

@@ -23,6 +23,13 @@ class ChatViewModel(
 
     val currentUserId: String get() = authRepository.currentUser?.uid ?: ""
     val currentUserDisplayName: String get() = authRepository.currentUser?.displayName ?: ""
+    val currentUserPhotoUrl: String? get() = authRepository.currentUser?.photoUrl?.toString()
+
+    private var otherUserPhotoUrl: String? = null
+
+    fun setOtherUserPhotoUrl(photoUrl: String?) {
+        otherUserPhotoUrl = photoUrl
+    }
 
     fun loadMessages(conversationId: String) {
         viewModelScope.launch {
@@ -46,6 +53,7 @@ class ChatViewModel(
 
         val userId = authRepository.currentUser?.uid ?: return
         val displayName = authRepository.currentUser?.displayName ?: ""
+        val photoUrl = authRepository.currentUser?.photoUrl?.toString()
 
         viewModelScope.launch {
             _sendState.value = SendMessageState.Sending
@@ -53,6 +61,7 @@ class ChatViewModel(
                 conversationId = conversationId,
                 senderId = userId,
                 senderDisplayName = displayName,
+                senderPhotoUrl = photoUrl,
                 text = trimmed
             )
             _sendState.value = if (result.isSuccess) {

@@ -5,6 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.transform.CircleCropTransformation
+import com.example.findly.R
 import com.example.findly.databinding.ItemMessageReceivedBinding
 import com.example.findly.databinding.ItemMessageSentBinding
 import com.example.findly.domain.model.Message
@@ -13,7 +16,8 @@ import java.util.Date
 import java.util.Locale
 
 class ChatAdapter(
-    private val currentUserId: String
+    private val currentUserId: String,
+    private val otherUserPhotoUrl: String?
 ) : ListAdapter<Message, RecyclerView.ViewHolder>(DiffCallback) {
 
     companion object {
@@ -56,7 +60,11 @@ class ChatAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is SentMessageViewHolder -> holder.bind(getItem(position))
-            is ReceivedMessageViewHolder -> holder.bind(getItem(position))
+            is ReceivedMessageViewHolder -> {
+                val isLastFromSender = position == itemCount - 1 ||
+                        getItem(position + 1).senderId == currentUserId
+                holder.bind(getItem(position), isLastFromSender)
+            }
         }
     }
 
@@ -74,10 +82,20 @@ class ChatAdapter(
         private val binding: ItemMessageReceivedBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(message: Message) {
+        fun bind(message: Message, showAvatar: Boolean) {
             binding.textViewMessage.text = message.text
             binding.textViewTimestamp.text = formatTimestamp(message.timestamp)
             binding.textViewSenderName.text = message.senderDisplayName
+
+            if (showAvatar) {
+                binding.imageViewAvatar.load(otherUserPhotoUrl) {
+                    placeholder(R.drawable.ic_person)
+                    error(R.drawable.ic_person)
+                    transformations(CircleCropTransformation())
+                }
+            } else {
+                binding.imageViewAvatar.setImageDrawable(null)
+            }
         }
     }
 

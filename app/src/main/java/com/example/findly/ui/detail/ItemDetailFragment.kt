@@ -80,7 +80,20 @@ class ItemDetailFragment : Fragment() {
             Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
         }
         binding.btnContact.setOnClickListener {
-            Snackbar.make(binding.root, getString(R.string.contact_coming_soon), Snackbar.LENGTH_SHORT).show()
+            viewModel.getOrCreateConversation(
+                onSuccess = { conversationId, otherUserDisplayName, itemTitle ->
+                    val action = ItemDetailFragmentDirections
+                        .actionDetailToChat(
+                            conversationId = conversationId,
+                            otherUserDisplayName = otherUserDisplayName,
+                            itemTitle = itemTitle
+                        )
+                    findNavController().navigate(action)
+                },
+                onError = { message ->
+                    Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+                }
+            )
         }
         binding.btnReport.setOnClickListener {
             Snackbar.make(binding.root, getString(R.string.report_coming_soon), Snackbar.LENGTH_SHORT).show()

@@ -45,6 +45,7 @@ class ChatFragment : Fragment() {
         setupInput()
         observeUiState()
         observeSendState()
+        viewModel.setOtherUserPhotoUrl(args.otherUserPhotoUrl)
         viewModel.loadMessages(args.conversationId)
         viewModel.markAsRead(args.conversationId)
     }
@@ -56,7 +57,10 @@ class ChatFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = ChatAdapter(currentUserId = viewModel.currentUserId)
+        adapter = ChatAdapter(
+            currentUserId = viewModel.currentUserId,
+            otherUserPhotoUrl = args.otherUserPhotoUrl
+        )
         binding.recyclerViewMessages.apply {
             layoutManager = LinearLayoutManager(requireContext()).apply {
                 stackFromEnd = true
@@ -69,7 +73,6 @@ class ChatFragment : Fragment() {
         binding.editTextMessage.doAfterTextChanged { text ->
             binding.buttonSend.isEnabled = !text.isNullOrBlank()
         }
-
         binding.buttonSend.setOnClickListener {
             val text = binding.editTextMessage.text?.toString() ?: return@setOnClickListener
             viewModel.sendMessage(args.conversationId, text)

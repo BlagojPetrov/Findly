@@ -1,5 +1,8 @@
 package com.example.findly.ui.detail
 
+import com.example.findly.data.remote.firestore.FirestoreMessageSource
+import com.example.findly.data.repository.MessageRepositoryImpl
+import com.example.findly.domain.repository.MessageRepository
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -41,6 +44,45 @@ class ItemDetailViewModel(
     private val currentUserId: String =
         com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: "guest"
 
+    private val messageRepository: MessageRepository = MessageRepositoryImpl(FirestoreMessageSource())
+
+    fun getOrCreateConversation(
+        onSuccess: (conversationId: String, otherUserDisplayName: String, itemTitle: String) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val currentState = _uiState.value
+        if (currentState !is DetailUiState.Success) return
+
+        val item = currentState.item
+        val currentUser = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
+
+        if (currentUser == null) {
+            onError("You must be signed in to contact the poster")
+            return
+        }
+
+        if (item.userId == currentUser.uid) {
+            onError("You cannot message yourself")
+            return
+        }
+
+        viewModelScope.launch {
+            val result = messageRepository.getOrCreateConversation(
+                itemId = item.id,
+                itemTitle = item.title,
+                currentUserId = currentUser.uid,
+                currentUserDisplayName = currentUser.displayName ?: "Anonymous",
+                otherUserId = item.userId,
+                otherUserDisplayName = item.userDisplayName,
+                otherUserPhotoUrl = item.userPhotoUrl
+            )
+            if (result.isSuccess) {
+                onSuccess(result.getOrThrow(), item.userDisplayName, item.title)
+            } else {
+                onError(result.exceptionOrNull()?.message ?: "Failed to start conversation")
+            }
+        }
+    }
 
     val isOwnItem: StateFlow<Boolean> = _uiState
         .map { state ->

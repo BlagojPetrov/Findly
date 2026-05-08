@@ -5,6 +5,7 @@ data class Message(
     val conversationId: String,
     val senderId: String,
     val senderDisplayName: String,
+    val senderPhotoUrl: String?,
     val text: String,
     val timestamp: Long,
     val read: Boolean

@@ -11,6 +11,7 @@ interface MessageRepository {
         conversationId: String,
         senderId: String,
         senderDisplayName: String,
+        senderPhotoUrl: String?,
         text: String
     ): Result<Unit>
     suspend fun getOrCreateConversation(

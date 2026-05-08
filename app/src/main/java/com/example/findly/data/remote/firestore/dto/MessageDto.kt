@@ -8,6 +8,7 @@ data class MessageDto(
     val conversationId: String = "",
     val senderId: String = "",
     val senderDisplayName: String = "",
+    val senderPhotoUrl: String? = null,
     val text: String = "",
     val timestamp: Long = 0L,
     val read: Boolean = false
