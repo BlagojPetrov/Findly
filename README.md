@@ -2,7 +2,7 @@
 
 # Findly – Lost & Found App
 
-Android application built with Kotlin, MVVM architecture and Firebase.
+Findly is a modern Android application designed to help people quickly report, discover, and recover lost or found items in real time. Built with Kotlin, MVVM architecture, and Firebase, it provides a fast and reliable way to connect users through smart matching and instant communication.
 
 ## Features
 - Authentication (Google, Email, Anonymous)
