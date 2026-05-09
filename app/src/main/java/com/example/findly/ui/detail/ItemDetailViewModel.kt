@@ -47,7 +47,7 @@ class ItemDetailViewModel(
     private val messageRepository: MessageRepository = MessageRepositoryImpl(FirestoreMessageSource())
 
     fun getOrCreateConversation(
-        onSuccess: (conversationId: String, otherUserDisplayName: String, itemTitle: String) -> Unit,
+        onSuccess: (conversationId: String, otherUserDisplayName: String, itemTitle: String, otherUserPhotoUrl: String?) -> Unit,
         onError: (String) -> Unit
     ) {
         val currentState = _uiState.value
@@ -77,7 +77,7 @@ class ItemDetailViewModel(
                 otherUserPhotoUrl = item.userPhotoUrl
             )
             if (result.isSuccess) {
-                onSuccess(result.getOrThrow(), item.userDisplayName, item.title)
+                onSuccess(result.getOrThrow(), item.userDisplayName, item.title, item.userPhotoUrl)
             } else {
                 onError(result.exceptionOrNull()?.message ?: "Failed to start conversation")
             }

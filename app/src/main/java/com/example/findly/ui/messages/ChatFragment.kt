@@ -50,6 +50,16 @@ class ChatFragment : Fragment() {
         viewModel.markAsRead(args.conversationId)
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.markAsRead(args.conversationId)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.markAsRead(args.conversationId)
+    }
+
     private fun setupToolbar() {
         binding.textViewToolbarTitle.text = args.otherUserDisplayName
         binding.textViewToolbarSubtitle.text = args.itemTitle

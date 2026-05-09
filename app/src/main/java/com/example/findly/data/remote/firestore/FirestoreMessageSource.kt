@@ -50,20 +50,53 @@ class FirestoreMessageSource {
     }
 
     suspend fun sendMessage(dto: MessageDto) {
-        val doc = conversationsCollection
-            .document(dto.conversationId)
+
+        val conversationRef =
+            conversationsCollection.document(dto.conversationId)
+
+        val doc = conversationRef
             .collection("messages")
             .document()
+
         val messageWithId = dto.copy(id = doc.id)
+
         doc.set(messageWithId).await()
 
-        conversationsCollection.document(dto.conversationId)
-            .update(
+        db.runTransaction { transaction ->
+
+            val snapshot = transaction.get(conversationRef)
+
+            val conversation =
+                snapshot.toObject(ConversationDto::class.java)
+                    ?: return@runTransaction
+
+            val updatedUnread =
+                conversation.unreadCount.toMutableMap()
+
+            conversation.participantIds.forEach { userId ->
+
+                if (userId != dto.senderId) {
+
+                    val current =
+                        updatedUnread[userId] ?: 0
+
+                    updatedUnread[userId] = current + 1
+
+                } else {
+
+                    updatedUnread[userId] = 0
+                }
+            }
+
+            transaction.update(
+                conversationRef,
                 mapOf(
                     "lastMessage" to dto.text,
-                    "lastMessageTimestamp" to dto.timestamp
+                    "lastMessageTimestamp" to dto.timestamp,
+                    "unreadCount" to updatedUnread
                 )
-            ).await()
+            )
+        }.await()
     }
 
     suspend fun getOrCreateConversation(dto: ConversationDto): String {

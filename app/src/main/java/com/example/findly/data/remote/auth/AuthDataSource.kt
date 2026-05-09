@@ -11,6 +11,7 @@ import kotlinx.coroutines.tasks.await
 class AuthDataSource {
 
     private val auth = FirebaseAuth.getInstance()
+    private val db = com.google.firebase.firestore.FirebaseFirestore.getInstance()
 
     val currentUser: FirebaseUser?
         get() = auth.currentUser
@@ -21,10 +22,28 @@ class AuthDataSource {
         awaitClose { auth.removeAuthStateListener(listener) }
     }
 
+    private suspend fun saveUserToFirestore(user: FirebaseUser) {
+        val userDoc = db.collection("users").document(user.uid)
+        val snapshot = userDoc.get().await()
+        if (!snapshot.exists()) {
+            userDoc.set(
+                mapOf(
+                    "uid" to user.uid,
+                    "displayName" to (user.displayName ?: ""),
+                    "email" to (user.email ?: ""),
+                    "photoUrl" to (user.photoUrl?.toString() ?: ""),
+                    "fcmToken" to ""
+                )
+            ).await()
+        }
+    }
+
     suspend fun signInWithEmail(email: String, password: String): Result<FirebaseUser> {
         return try {
             val result = auth.signInWithEmailAndPassword(email, password).await()
-            Result.success(result.user!!)
+            val user = result.user!!
+            saveUserToFirestore(user)
+            Result.success(user)
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -38,13 +57,11 @@ class AuthDataSource {
         return try {
             val result = auth.createUserWithEmailAndPassword(email, password).await()
             val user = result.user!!
-
-            // Update display name immediately after registration
             val profileUpdates = com.google.firebase.auth.UserProfileChangeRequest.Builder()
                 .setDisplayName(displayName)
                 .build()
             user.updateProfile(profileUpdates).await()
-
+            saveUserToFirestore(user)
             Result.success(user)
         } catch (e: Exception) {
             Result.failure(e)
@@ -55,7 +72,9 @@ class AuthDataSource {
         return try {
             val credential = GoogleAuthProvider.getCredential(idToken, null)
             val result = auth.signInWithCredential(credential).await()
-            Result.success(result.user!!)
+            val user = result.user!!
+            saveUserToFirestore(user)
+            Result.success(user)
         } catch (e: Exception) {
             Result.failure(e)
         }

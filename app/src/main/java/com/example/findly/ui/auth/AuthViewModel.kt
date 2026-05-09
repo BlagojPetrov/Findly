@@ -3,7 +3,9 @@ package com.example.findly.ui.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.findly.data.repository.AuthRepositoryImpl
+import com.example.findly.data.repository.FcmRepositoryImpl
 import com.example.findly.domain.repository.AuthRepository
+import com.example.findly.domain.repository.FcmRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -11,6 +13,7 @@ import kotlinx.coroutines.launch
 class AuthViewModel : ViewModel() {
 
     private val repository: AuthRepository = AuthRepositoryImpl()
+    private val fcmRepository: FcmRepository = FcmRepositoryImpl()
 
     private val _uiState = MutableStateFlow<AuthUiState>(AuthUiState.Idle)
     val uiState: StateFlow<AuthUiState> = _uiState
@@ -20,7 +23,10 @@ class AuthViewModel : ViewModel() {
         _uiState.value = AuthUiState.Loading
         viewModelScope.launch {
             repository.signInWithEmail(email, password)
-                .onSuccess { _uiState.value = AuthUiState.Success }
+                .onSuccess { user ->
+                    fcmRepository.saveTokenForUser(user.uid)
+                    _uiState.value = AuthUiState.Success
+                }
                 .onFailure { _uiState.value = AuthUiState.Error(it.message ?: "Sign in failed") }
         }
     }
@@ -38,7 +44,10 @@ class AuthViewModel : ViewModel() {
         _uiState.value = AuthUiState.Loading
         viewModelScope.launch {
             repository.registerWithEmail(email, password, displayName)
-                .onSuccess { _uiState.value = AuthUiState.Success }
+                .onSuccess { user ->
+                    fcmRepository.saveTokenForUser(user.uid)
+                    _uiState.value = AuthUiState.Success
+                }
                 .onFailure { _uiState.value = AuthUiState.Error(it.message ?: "Registration failed") }
         }
     }
@@ -47,7 +56,10 @@ class AuthViewModel : ViewModel() {
         _uiState.value = AuthUiState.Loading
         viewModelScope.launch {
             repository.signInWithGoogle(idToken)
-                .onSuccess { _uiState.value = AuthUiState.Success }
+                .onSuccess { user ->
+                    fcmRepository.saveTokenForUser(user.uid)
+                    _uiState.value = AuthUiState.Success
+                }
                 .onFailure { _uiState.value = AuthUiState.Error(it.message ?: "Google sign in failed") }
         }
     }

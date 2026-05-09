@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Findly">
 
-        <!-- Auth entry point -->
         <activity
             android:name=".ui.auth.AuthActivity"
             android:exported="true">
@@ -21,12 +21,19 @@
             </intent-filter>
         </activity>
 
-        <!-- Main app -->
         <activity
             android:name=".MainActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
 
-        <!-- FileProvider for camera capture -->
+        <service
+            android:name=".data.remote.fcm.FindlyMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

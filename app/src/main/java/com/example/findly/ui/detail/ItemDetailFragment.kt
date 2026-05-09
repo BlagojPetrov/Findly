@@ -81,12 +81,13 @@ class ItemDetailFragment : Fragment() {
         }
         binding.btnContact.setOnClickListener {
             viewModel.getOrCreateConversation(
-                onSuccess = { conversationId, otherUserDisplayName, itemTitle ->
+                onSuccess = { conversationId, otherUserDisplayName, itemTitle, otherUserPhotoUrl ->
                     val action = ItemDetailFragmentDirections
                         .actionDetailToChat(
                             conversationId = conversationId,
                             otherUserDisplayName = otherUserDisplayName,
-                            itemTitle = itemTitle
+                            itemTitle = itemTitle,
+                            otherUserPhotoUrl = otherUserPhotoUrl
                         )
                     findNavController().navigate(action)
                 },
