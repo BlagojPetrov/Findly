@@ -35,4 +35,7 @@ class FirestoreItemRepository(
     override suspend fun deleteItem(itemId: String) {
         source.deleteItem(itemId)
     }
+
+    override suspend fun getItemsByCategory(category: String, type: ItemType): List<Item> =
+        source.getItemsByCategory(category, type).map { it.toDomain() }
 }

@@ -89,4 +89,6 @@
     <string name="send">Send</string>
     <string name="back">Back</string>
     <string name="user_avatar">User avatar</string>
+
+    <string name="potential_matches">Potential Matches</string>
 </resources>

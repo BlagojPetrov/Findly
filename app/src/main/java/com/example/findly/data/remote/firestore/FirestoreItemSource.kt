@@ -106,4 +106,20 @@ class FirestoreItemSource {
             }
         awaitClose { listener.remove() }
     }
+
+    suspend fun getItemsByCategory(category: String, type: ItemType): List<ItemDto> {
+        return try {
+            itemsCollection
+                .whereEqualTo("status", "ACTIVE")
+                .whereEqualTo("category", category)
+                .whereEqualTo("type", type.name)
+                .get()
+                .await()
+                .documents
+                .mapNotNull { it.toObject(ItemDto::class.java) }
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.example.findly.ui.detail
 
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -34,6 +36,8 @@ class ItemDetailFragment : Fragment() {
         ItemDetailViewModel.Factory(requireActivity().application, args.itemId)
     }
 
+    private lateinit var matchAdapter: MatchAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,6 +53,8 @@ class ItemDetailFragment : Fragment() {
         observeUiState()
         observeSavedState()
         observeOwnership()
+        setupMatchesRecyclerView()
+        observeMatches()
     }
 
     private fun observeOwnership() {
@@ -208,6 +214,46 @@ class ItemDetailFragment : Fragment() {
     private fun showError(message: String) {
         binding.progressBar.visibility = View.GONE
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun setupMatchesRecyclerView() {
+        matchAdapter = MatchAdapter { matchedItem ->
+            val action = ItemDetailFragmentDirections
+                .actionDetailToDetail(itemId = matchedItem.item.id)
+            findNavController().navigate(action)
+        }
+        binding.recyclerViewMatches.apply {
+            layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            adapter = matchAdapter
+        }
+    }
+
+    private fun observeMatches() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.matchesState.collect { state ->
+                    when (state) {
+                        is MatchesUiState.Loading -> {
+                            binding.recyclerViewMatches.isVisible = false
+                            binding.textViewMatchesTitle.isVisible = false
+                        }
+                        is MatchesUiState.Empty -> {
+                            binding.recyclerViewMatches.isVisible = false
+                            binding.textViewMatchesTitle.isVisible = false
+                        }
+                        is MatchesUiState.Success -> {
+                            binding.textViewMatchesTitle.isVisible = true
+                            binding.recyclerViewMatches.isVisible = true
+                            matchAdapter.submitList(state.matches)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
