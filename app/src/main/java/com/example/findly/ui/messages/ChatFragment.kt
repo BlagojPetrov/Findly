@@ -116,7 +116,6 @@ class ChatFragment : Fragment() {
                         is ChatUiState.Error -> {
                             binding.progressBar.isVisible = false
                             binding.textViewEmpty.isVisible = true
-                            binding.textViewEmpty.text = state.message
                         }
                     }
                 }

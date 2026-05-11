@@ -91,4 +91,6 @@
     <string name="user_avatar">User avatar</string>
 
     <string name="potential_matches">Potential Matches</string>
+
+    <string name="no_conversations_subtitle">Contact a poster to start a conversation</string>
 </resources>

@@ -18,4 +18,4 @@ node_modules/
 functions/node_modules/
 
 # Firebase
-google-services.json
+app/google-services.json

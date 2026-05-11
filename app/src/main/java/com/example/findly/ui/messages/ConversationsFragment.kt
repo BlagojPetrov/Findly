@@ -83,7 +83,6 @@ class ConversationsFragment : Fragment() {
                             binding.progressBar.isVisible = false
                             binding.recyclerViewConversations.isVisible = false
                             binding.textViewEmpty.isVisible = true
-                            binding.textViewEmpty.text = state.message
                         }
                     }
                 }

@@ -1,7 +1,125 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
     <style name="Base.Theme.Findly" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <!-- Primary -->
+        <item name="colorPrimary">@color/brand_primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/brand_primary_dark</item>
+        <item name="colorOnPrimaryContainer">@color/brand_primary_light</item>
+
+        <!-- Secondary -->
+        <item name="colorSecondary">@color/brand_secondary</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/brand_secondary_light</item>
+        <item name="colorOnSecondaryContainer">@color/brand_secondary</item>
+
+        <!-- Background -->
+        <item name="android:colorBackground">@color/background_dark</item>
+        <item name="colorSurface">@color/surface_dark</item>
+        <item name="colorOnSurface">@color/text_primary_dark</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary_dark</item>
+        <item name="colorSurfaceVariant">@color/surface_variant_dark</item>
+
+        <!-- Outline -->
+        <item name="colorOutline">@color/outline_dark</item>
+        <item name="colorOutlineVariant">@color/outline_dark</item>
+
+        <!-- Error -->
+        <item name="colorError">#EF5350</item>
+        <item name="colorOnError">@color/white</item>
+
+        <!-- Bottom nav -->
+        <item name="bottomNavigationStyle">@style/Widget.Findly.BottomNavigation.Dark</item>
+
+        <!-- Shape -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Findly.Small</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Findly.Medium</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Findly.Large</item>
     </style>
+
+    <style name="Theme.Findly" parent="Base.Theme.Findly" />
+
+    <!-- Shape system -->
+    <style name="ShapeAppearance.Findly.Small" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="ShapeAppearance.Findly.Medium" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    <style name="ShapeAppearance.Findly.Large" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <!-- Circle image -->
+    <style name="CircleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <!-- Bottom Navigation Dark -->
+    <style name="Widget.Findly.BottomNavigation.Dark" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:background">@color/surface_dark</item>
+        <item name="itemActiveIndicatorStyle">@style/Widget.Findly.BottomNavigation.ActiveIndicator.Dark</item>
+        <item name="elevation">8dp</item>
+    </style>
+
+    <style name="Widget.Findly.BottomNavigation.ActiveIndicator.Dark" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/brand_primary_dark</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Findly.Medium</item>
+    </style>
+
+    <!-- Toolbar Dark -->
+    <style name="Widget.Findly.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/surface_dark</item>
+        <item name="titleTextColor">@color/text_primary_dark</item>
+    </style>
+
+    <!-- Card Dark -->
+    <style name="Widget.Findly.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">@color/outline_dark</item>
+        <item name="cardBackgroundColor">@color/surface_dark</item>
+    </style>
+
+    <!-- Primary button -->
+    <style name="Widget.Findly.Button" parent="Widget.Material3.Button">
+        <item name="cornerRadius">12dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+    </style>
+
+    <!-- Outlined button -->
+    <style name="Widget.Findly.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="cornerRadius">12dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="strokeColor">@color/outline_dark</item>
+    </style>
+
+    <!-- Text input -->
+    <style name="Widget.Findly.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="boxStrokeColor">@color/outline_dark</item>
+        <item name="hintTextColor">@color/text_secondary_dark</item>
+    </style>
+
+    <style name="Widget.Findly.TextInputLayout.Dropdown" parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="boxStrokeColor">@color/outline_dark</item>
+    </style>
+
 </resources>

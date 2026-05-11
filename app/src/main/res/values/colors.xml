@@ -2,8 +2,41 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Brand -->
+    <color name="brand_primary">#6C63FF</color>
+    <color name="brand_primary_dark">#4B44CC</color>
+    <color name="brand_primary_light">#EEF0FF</color>
+    <color name="brand_secondary">#FF6584</color>
+    <color name="brand_secondary_light">#FFF0F3</color>
+
+    <!-- Background -->
+    <color name="background_light">#F5F5FA</color>
+    <color name="background_dark">#121218</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="surface_dark">#1E1E2A</color>
+    <color name="surface_variant_light">#F0F0F8</color>
+    <color name="surface_variant_dark">#2A2A38</color>
+
+    <!-- Item type chips -->
     <color name="chip_lost_background">#FFF3E0</color>
     <color name="chip_lost_text">#E65100</color>
     <color name="chip_found_background">#E8F5E9</color>
     <color name="chip_found_text">#2E7D32</color>
+
+    <!-- Chip dark -->
+    <color name="chip_lost_background_dark">#3E2A00</color>
+    <color name="chip_lost_text_dark">#FFB74D</color>
+    <color name="chip_found_background_dark">#003A00</color>
+    <color name="chip_found_text_dark">#81C784</color>
+
+    <!-- Text -->
+    <color name="text_primary_light">#1A1A2E</color>
+    <color name="text_secondary_light">#6B6B80</color>
+    <color name="text_primary_dark">#F0F0FF</color>
+    <color name="text_secondary_dark">#9898B0</color>
+
+    <!-- Outline -->
+    <color name="outline_light">#E0E0EE</color>
+    <color name="outline_dark">#3A3A50</color>
 </resources>

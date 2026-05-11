@@ -4,12 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="160dp"
-    android:layout_height="220dp"
+    android:layout_height="230dp"
     android:layout_marginEnd="12dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
     app:strokeColor="?attr/colorOutlineVariant"
-    app:strokeWidth="1dp">
+    app:strokeWidth="1dp"
+    android:foreground="?attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
         <ImageView
             android:id="@+id/imageViewMatchPhoto"
             android:layout_width="match_parent"
-            android:layout_height="110dp"
+            android:layout_height="120dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_category"
             android:contentDescription="@null" />
@@ -28,17 +29,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="12dp">
 
             <TextView
                 android:id="@+id/textViewMatchTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:maxLines="2"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                android:textColor="?attr/colorOnSurface"
+                android:ellipsize="end"
                 android:textStyle="bold"
+                android:textColor="?attr/colorOnSurface"
                 tools:text="Black Leather Wallet" />
 
             <TextView
@@ -46,21 +46,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:ellipsize="end"
                 android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:ellipsize="end"
+                android:textSize="12sp"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 tools:text="Skopje" />
 
+            <!-- score badge -->
             <TextView
                 android:id="@+id/textViewMatchScore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/bg_match_score"
-                android:paddingHorizontal="6dp"
-                android:paddingVertical="2dp"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:textSize="12sp"
+                android:textStyle="bold"
                 android:textColor="?attr/colorOnPrimary"
                 tools:text="80% match" />
 
