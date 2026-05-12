@@ -61,8 +61,8 @@ class ItemDetailFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isOwnItem.collect { isOwn ->
-                    binding.btnDelete.visibility =
-                        if (isOwn) View.VISIBLE else View.GONE
+                    binding.cardOwnerActions.visibility = if (isOwn) View.VISIBLE else View.GONE
+                    binding.cardVisitorActions.visibility = if (!isOwn) View.VISIBLE else View.GONE
                 }
             }
         }
@@ -119,6 +119,11 @@ class ItemDetailFragment : Fragment() {
                 }
                 .setNegativeButton(getString(R.string.cancel), null)
                 .show()
+        }
+        binding.btnEdit.setOnClickListener {
+            val action = ItemDetailFragmentDirections
+                .actionDetailToEdit(itemId = args.itemId)
+            findNavController().navigate(action)
         }
     }
 

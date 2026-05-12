@@ -35,6 +35,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     packaging {
@@ -81,6 +82,9 @@ dependencies {
 
     // Google Sign-In
     implementation(libs.play.services.auth)
+
+    // Facebook Login
+    implementation("com.facebook.android:facebook-login:latest.release")
 
 
     implementation(libs.firebase.storage)

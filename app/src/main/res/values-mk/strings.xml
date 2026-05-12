@@ -121,4 +121,7 @@
     <string name="delete_conversation_message">Дали сте сигурни дека сакате да го избришете овој разговор? Ова не може да се поништи.</string>
     <string name="conversation_deleted">Разговорот е избришан</string>
 
+    <string name="title_edit_item">Уреди предмет</string>
+    <string name="btn_edit">Уреди објава</string>
+    <string name="btn_save_changes">Зачувај промени</string>
 </resources>

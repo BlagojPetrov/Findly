@@ -256,8 +256,9 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Action buttons card -->
+            <!-- Action buttons card — visitor view -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardVisitorActions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
@@ -274,7 +275,7 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <!-- Contact button -->
+                    <!-- Primary: Contact Poster -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnContact"
                         android:layout_width="match_parent"
@@ -282,29 +283,87 @@
                         android:text="@string/btn_contact"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        app:cornerRadius="12dp" />
+                        app:cornerRadius="12dp"
+                        app:icon="@drawable/ic_message"
+                        app:iconGravity="textStart"
+                        app:iconPadding="8dp" />
 
-                    <!-- Report button -->
+                    <!-- Secondary: Report -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnReport"
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="44dp"
                         android:layout_marginTop="4dp"
                         android:text="@string/btn_report"
+                        android:textSize="13sp"
                         android:textColor="?attr/colorError" />
 
-                    <!-- Delete button -->
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnDelete"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Action buttons card — owner view -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardOwnerActions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
+                android:visibility="gone"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:strokeWidth="1dp"
+                app:strokeColor="?attr/colorOutlineVariant">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <!-- Edit and Delete in a row -->
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="@string/btn_delete"
-                        android:textColor="?attr/colorError"
-                        app:strokeColor="?attr/colorError"
-                        android:visibility="gone" />
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <!-- Edit button -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnEdit"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="52dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:text="@string/btn_edit"
+                            android:textStyle="bold"
+                            app:cornerRadius="12dp"
+                            app:icon="@drawable/ic_add_photo"
+                            app:iconGravity="textStart"
+                            app:iconPadding="8dp" />
+
+                        <!-- Delete button -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnDelete"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="52dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="6dp"
+                            android:text="@string/btn_delete"
+                            android:textColor="?attr/colorError"
+                            android:textStyle="bold"
+                            app:cornerRadius="12dp"
+                            app:strokeColor="?attr/colorError"
+                            app:icon="@drawable/ic_close"
+                            app:iconGravity="textStart"
+                            app:iconPadding="8dp"
+                            app:iconTint="?attr/colorError" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

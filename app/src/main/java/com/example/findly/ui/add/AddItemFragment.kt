@@ -15,6 +15,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import coil.load
 import com.example.findly.R
 import com.example.findly.databinding.FragmentAddItemBinding
@@ -31,33 +32,33 @@ class AddItemFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: AddItemViewModel by viewModels()
+    private val args: AddItemFragmentArgs by navArgs()
     private var selectedType: ItemType = ItemType.LOST
     private var cameraImageUri: Uri? = null
 
-    // Camera launcher
     private val cameraLauncher = registerForActivityResult(
         ActivityResultContracts.TakePicture()
     ) { success ->
         if (success) {
-            cameraImageUri?.let { uri ->
-                viewModel.onImageSelected(uri)
-            }
+            cameraImageUri?.let { uri -> viewModel.onImageSelected(uri) }
         }
     }
 
-    // Gallery launcher
     private val galleryLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri ->
         uri?.let { viewModel.onImageSelected(it) }
     }
 
-    // Camera permission launcher
     private val cameraPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
         if (granted) launchCamera()
-        else Snackbar.make(binding.root, getString(R.string.camera_permission_denied), Snackbar.LENGTH_SHORT).show()
+        else Snackbar.make(
+            binding.root,
+            getString(R.string.camera_permission_denied),
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     override fun onCreateView(
@@ -77,11 +78,21 @@ class AddItemFragment : Fragment() {
         setupSubmitButton()
         observeUiState()
         observeSelectedImage()
+        observeEditItem()
+
+        args.itemId?.let { itemId ->
+            viewModel.loadItemForEdit(itemId)
+        }
     }
 
     private fun setupToolbar() {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+        binding.toolbar.title = if (args.itemId != null) {
+            getString(R.string.title_edit_item)
+        } else {
+            getString(R.string.title_report_item)
         }
     }
 
@@ -90,9 +101,9 @@ class AddItemFragment : Fragment() {
         binding.toggleItemType.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
                 selectedType = when (checkedId) {
-                    R.id.btnTypeLost  -> ItemType.LOST
+                    R.id.btnTypeLost -> ItemType.LOST
                     R.id.btnTypeFound -> ItemType.FOUND
-                    else              -> ItemType.LOST
+                    else -> ItemType.LOST
                 }
             }
         }
@@ -112,12 +123,8 @@ class AddItemFragment : Fragment() {
     }
 
     private fun setupImagePicker() {
-        binding.cardImage.setOnClickListener {
-            showImagePickerDialog()
-        }
-        binding.btnRemoveImage.setOnClickListener {
-            viewModel.clearSelectedImage()
-        }
+        binding.cardImage.setOnClickListener { showImagePickerDialog() }
+        binding.btnRemoveImage.setOnClickListener { viewModel.clearSelectedImage() }
     }
 
     private fun showImagePickerDialog() {
@@ -151,6 +158,40 @@ class AddItemFragment : Fragment() {
         cameraLauncher.launch(cameraImageUri)
     }
 
+    private fun observeEditItem() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.editItem.collect { item ->
+                    item ?: return@collect
+
+                    binding.etTitle.setText(item.title)
+                    binding.etDescription.setText(item.description)
+                    binding.etLocation.setText(item.locationName ?: "")
+
+                    val categoryDisplay = item.category.name
+                        .lowercase()
+                        .replaceFirstChar { it.uppercase() }
+                    binding.actvCategory.setText(categoryDisplay, false)
+
+                    when (item.type) {
+                        ItemType.LOST -> binding.toggleItemType.check(R.id.btnTypeLost)
+                        ItemType.FOUND -> binding.toggleItemType.check(R.id.btnTypeFound)
+                    }
+                    selectedType = item.type
+
+                    if (item.imageUrl != null) {
+                        binding.ivImagePreview.visibility = View.VISIBLE
+                        binding.btnRemoveImage.visibility = View.VISIBLE
+                        binding.layoutImagePlaceholder.visibility = View.GONE
+                        binding.ivImagePreview.load(item.imageUrl) { crossfade(true) }
+                    }
+
+                    binding.btnSubmit.text = getString(R.string.btn_save_changes)
+                }
+            }
+        }
+    }
+
     private fun observeSelectedImage() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -159,9 +200,7 @@ class AddItemFragment : Fragment() {
                         binding.ivImagePreview.visibility = View.VISIBLE
                         binding.btnRemoveImage.visibility = View.VISIBLE
                         binding.layoutImagePlaceholder.visibility = View.GONE
-                        binding.ivImagePreview.load(uri) {
-                            crossfade(true)
-                        }
+                        binding.ivImagePreview.load(uri) { crossfade(true) }
                     } else {
                         binding.ivImagePreview.visibility = View.GONE
                         binding.btnRemoveImage.visibility = View.GONE
@@ -182,10 +221,10 @@ class AddItemFragment : Fragment() {
                 Category.OTHER
             }
             viewModel.submitItem(
-                type         = selectedType,
-                title        = binding.etTitle.text?.toString() ?: "",
-                description  = binding.etDescription.text?.toString() ?: "",
-                category     = category,
+                type = selectedType,
+                title = binding.etTitle.text?.toString() ?: "",
+                description = binding.etDescription.text?.toString() ?: "",
+                category = category,
                 locationName = binding.etLocation.text?.toString() ?: ""
             )
         }
@@ -196,10 +235,10 @@ class AddItemFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     when (state) {
-                        is AddItemUiState.Idle    -> showIdle()
+                        is AddItemUiState.Idle -> showIdle()
                         is AddItemUiState.Loading -> showLoading()
                         is AddItemUiState.Success -> onSuccess()
-                        is AddItemUiState.Error   -> showError(state.message)
+                        is AddItemUiState.Error -> showError(state.message)
                     }
                 }
             }

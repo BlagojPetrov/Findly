@@ -23,9 +23,22 @@ class AddItemViewModel(application: Application) : AndroidViewModel(application)
     private val _uiState = MutableStateFlow<AddItemUiState>(AddItemUiState.Idle)
     val uiState: StateFlow<AddItemUiState> = _uiState
 
-    // Holds the selected image URI before upload
     private val _selectedImageUri = MutableStateFlow<Uri?>(null)
     val selectedImageUri: StateFlow<Uri?> = _selectedImageUri
+
+    private val _editItem = MutableStateFlow<Item?>(null)
+
+    private val _imageCleared = MutableStateFlow(false)
+    val editItem: StateFlow<Item?> = _editItem
+
+    val isEditMode: Boolean get() = _editItem.value != null
+
+    fun loadItemForEdit(itemId: String) {
+        viewModelScope.launch {
+            val item = repository.getItemById(itemId)
+            _editItem.value = item
+        }
+    }
 
     fun onImageSelected(uri: Uri) {
         _selectedImageUri.value = uri
@@ -33,6 +46,7 @@ class AddItemViewModel(application: Application) : AndroidViewModel(application)
 
     fun clearSelectedImage() {
         _selectedImageUri.value = null
+        if (isEditMode) _imageCleared.value = true
     }
 
     fun submitItem(
@@ -62,54 +76,59 @@ class AddItemViewModel(application: Application) : AndroidViewModel(application)
         val userDisplayName = firebaseUser?.displayName
             ?: firebaseUser?.email?.substringBefore("@")
             ?: "Anonymous"
+        val userPhotoUrl = firebaseUser?.photoUrl?.toString()
 
         viewModelScope.launch {
             try {
-                val firebaseUser = FirebaseAuth.getInstance().currentUser
-                val userId = firebaseUser?.uid ?: "guest"
-                val userDisplayName = firebaseUser?.displayName
-                    ?: firebaseUser?.email?.substringBefore("@")
-                    ?: "Anonymous"
-                val userPhotoUrl = firebaseUser?.photoUrl?.toString()
-
-                // Upload image and wait for URL before proceeding
-                var imageUrl: String? = null
+                var imageUrl: String? = _editItem.value?.imageUrl
                 val imageUri = _selectedImageUri.value
 
-                if (imageUri != null) {
-                    android.util.Log.d("AddItemVM", "Uploading image: $imageUri")
-                    val uploadResult = storageDataSource.uploadItemImage(imageUri)
-                    if (uploadResult.isSuccess) {
-                        imageUrl = uploadResult.getOrNull()
-                        android.util.Log.d("AddItemVM", "Image URL: $imageUrl")
-                    } else {
-                        android.util.Log.e("AddItemVM", "Upload failed: ${uploadResult.exceptionOrNull()?.message}")
-                        _uiState.value = AddItemUiState.Error("Image upload failed. Try again.")
-                        return@launch          // ← stop here, don't save to Firestore
+                when {
+                    imageUri != null -> {
+                        val uploadResult = storageDataSource.uploadItemImage(imageUri)
+                        if (uploadResult.isSuccess) {
+                            imageUrl = uploadResult.getOrNull()
+                        } else {
+                            _uiState.value = AddItemUiState.Error("Image upload failed. Try again.")
+                            return@launch
+                        }
+                    }
+                    isEditMode && _imageCleared.value -> {
+                        imageUrl = null
                     }
                 }
 
-                // Only reaches here after image is uploaded (or no image selected)
-                val newItem = Item(
-                    id              = "",
-                    type            = type,
-                    title           = title.trim(),
-                    description     = description.trim(),
-                    category        = category,
-                    imageUrl        = imageUrl,    // ← guaranteed to be the real URL or null
-                    locationName    = locationName.trim(),
-                    userId          = userId,
-                    userDisplayName = userDisplayName,
-                    userPhotoUrl    = userPhotoUrl,
-                    timestamp       = System.currentTimeMillis()
-                )
+                if (isEditMode) {
+                    val existingItem = _editItem.value!!
+                    val updatedItem = existingItem.copy(
+                        type = type,
+                        title = title.trim(),
+                        description = description.trim(),
+                        category = category,
+                        imageUrl = imageUrl,
+                        locationName = locationName.trim()
+                    )
+                    repository.updateItem(updatedItem)
+                } else {
+                    val newItem = Item(
+                        id = "",
+                        type = type,
+                        title = title.trim(),
+                        description = description.trim(),
+                        category = category,
+                        imageUrl = imageUrl,
+                        locationName = locationName.trim(),
+                        userId = userId,
+                        userDisplayName = userDisplayName,
+                        userPhotoUrl = userPhotoUrl,
+                        timestamp = System.currentTimeMillis()
+                    )
+                    repository.createItem(newItem)
+                }
 
-                android.util.Log.d("AddItemVM", "Saving item with imageUrl: $imageUrl")
-                repository.createItem(newItem)
                 _uiState.value = AddItemUiState.Success
 
             } catch (e: Exception) {
-                android.util.Log.e("AddItemVM", "Error: ${e.message}", e)
                 _uiState.value = AddItemUiState.Error(e.message ?: "Something went wrong")
             }
         }

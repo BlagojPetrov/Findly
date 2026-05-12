@@ -122,4 +122,18 @@ class FirestoreItemSource {
         }
     }
 
+    suspend fun updateItem(dto: ItemDto) {
+        itemsCollection.document(dto.id).update(
+            mapOf(
+                "type" to dto.type,
+                "title" to dto.title,
+                "description" to dto.description,
+                "category" to dto.category,
+                "imageUrl" to dto.imageUrl,
+                "locationName" to dto.locationName,
+                "keywords" to dto.keywords
+            )
+        ).await()
+    }
+
 }

@@ -38,4 +38,8 @@ class FirestoreItemRepository(
 
     override suspend fun getItemsByCategory(category: String, type: ItemType): List<Item> =
         source.getItemsByCategory(category, type).map { it.toDomain() }
+
+    override suspend fun updateItem(item: Item) {
+        source.updateItem(item.toDto())
+    }
 }

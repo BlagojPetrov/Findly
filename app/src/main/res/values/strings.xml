@@ -97,4 +97,12 @@
     <string name="delete_conversation">Delete Conversation</string>
     <string name="delete_conversation_message">Are you sure you want to delete this conversation? This cannot be undone.</string>
     <string name="conversation_deleted">Conversation deleted</string>
+
+    <string name="title_edit_item">Edit Item</string>
+    <string name="btn_edit">Edit Post</string>
+    <string name="btn_save_changes">Save Changes</string>
+
+    <string name="facebook_app_id">2050509355528826</string>
+    <string name="facebook_client_token">fec13e43ce79adeb643aab7c517f2b02</string>
+    <string name="fb_login_protocol_scheme">02b7e0082f227e4331ba1e73d15a3117</string>
 </resources>

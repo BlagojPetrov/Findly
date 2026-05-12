@@ -9,6 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.example.findly.ui.home.HomeFragment"
         android:label="Home">
+
         <action
             android:id="@+id/action_home_to_detail"
             app:destination="@id/itemDetailFragment"
@@ -16,6 +17,7 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+
         <action
             android:id="@+id/action_home_to_add"
             app:destination="@id/addItemFragment"
@@ -29,9 +31,11 @@
         android:id="@+id/itemDetailFragment"
         android:name="com.example.findly.ui.detail.ItemDetailFragment"
         android:label="Item Detail">
+
         <argument
             android:name="itemId"
             app:argType="string" />
+
         <action
             android:id="@+id/action_detail_to_detail"
             app:destination="@id/itemDetailFragment"
@@ -39,9 +43,19 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+
         <action
             android:id="@+id/action_detail_to_chat"
             app:destination="@id/chatFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <!-- NEW EDIT ACTION -->
+        <action
+            android:id="@+id/action_detail_to_edit"
+            app:destination="@id/addItemFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -51,13 +65,22 @@
     <fragment
         android:id="@+id/addItemFragment"
         android:name="com.example.findly.ui.add.AddItemFragment"
-        android:label="Report Item" />
+        android:label="Report Item">
+
+        <!-- NEW OPTIONAL ARGUMENT -->
+        <argument
+            android:name="itemId"
+            app:argType="string"
+            android:defaultValue="@null"
+            app:nullable="true" />
+    </fragment>
 
     <!-- Saved tab -->
     <fragment
         android:id="@+id/savedFragment"
         android:name="com.example.findly.ui.saved.SavedFragment"
         android:label="Saved">
+
         <action
             android:id="@+id/action_saved_to_detail"
             app:destination="@id/itemDetailFragment"
@@ -72,6 +95,7 @@
         android:id="@+id/profileFragment"
         android:name="com.example.findly.ui.profile.ProfileFragment"
         android:label="Profile">
+
         <action
             android:id="@+id/action_profile_to_detail"
             app:destination="@id/itemDetailFragment"
@@ -86,6 +110,7 @@
         android:id="@+id/conversationsFragment"
         android:name="com.example.findly.ui.messages.ConversationsFragment"
         android:label="Messages">
+
         <action
             android:id="@+id/action_conversations_to_chat"
             app:destination="@id/chatFragment"
@@ -99,17 +124,21 @@
         android:id="@+id/chatFragment"
         android:name="com.example.findly.ui.messages.ChatFragment"
         android:label="Chat">
+
         <argument
             android:name="conversationId"
             app:argType="string" />
+
         <argument
             android:name="otherUserDisplayName"
             app:argType="string" />
+
         <argument
             android:name="otherUserPhotoUrl"
             app:argType="string"
             android:defaultValue="@null"
             app:nullable="true" />
+
         <argument
             android:name="itemTitle"
             app:argType="string" />

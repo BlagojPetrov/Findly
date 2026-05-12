@@ -13,4 +13,5 @@ interface ItemRepository {
     fun getUserItems(userId: String): Flow<List<Item>>
     suspend fun deleteItem(itemId: String)
     suspend fun getItemsByCategory(category: String, type: ItemType): List<Item>
+    suspend fun updateItem(item: Item)
 }
