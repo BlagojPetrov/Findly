@@ -102,5 +102,6 @@
     <string name="btn_edit">Edit Post</string>
     <string name="btn_save_changes">Save Changes</string>
 
-
+    <string name="facebook_app_id">2050509355528826</string>
+    <string name="fb_login_protocol_scheme">02b7e0082f227e4331ba1e73d15a3117</string>
 </resources>

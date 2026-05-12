@@ -13,6 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+secrets.properties
 
 node_modules/
 functions/node_modules/

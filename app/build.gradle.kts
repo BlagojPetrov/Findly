@@ -1,3 +1,10 @@
+import java.util.Properties
+val secrets = Properties()
+val secretsFile = rootProject.file("secrets.properties")
+if (secretsFile.exists()) {
+    secrets.load(secretsFile.inputStream())
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -16,6 +23,8 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+        manifestPlaceholders["facebook_client_token"] =
+            secrets["FACEBOOK_CLIENT_TOKEN"].toString()
     }
 
     buildTypes {
