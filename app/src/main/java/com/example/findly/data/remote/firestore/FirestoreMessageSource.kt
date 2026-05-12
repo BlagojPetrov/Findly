@@ -141,4 +141,19 @@ class FirestoreMessageSource {
 
         batch.commit().await()
     }
+
+    suspend fun deleteConversation(conversationId: String) {
+        val messagesSnapshot = conversationsCollection
+            .document(conversationId)
+            .collection("messages")
+            .get()
+            .await()
+
+        val batch = db.batch()
+        messagesSnapshot.documents.forEach { doc ->
+            batch.delete(doc.reference)
+        }
+        batch.delete(conversationsCollection.document(conversationId))
+        batch.commit().await()
+    }
 }

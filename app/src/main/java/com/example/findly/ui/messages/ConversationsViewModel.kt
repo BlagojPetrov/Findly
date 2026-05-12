@@ -22,6 +22,21 @@ class ConversationsViewModel(
         loadConversations()
     }
 
+    fun deleteConversation(
+        conversationId: String,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        viewModelScope.launch {
+            val result = messageRepository.deleteConversation(conversationId)
+            if (result.isSuccess) {
+                onSuccess()
+            } else {
+                onError(result.exceptionOrNull()?.message ?: "Failed to delete conversation")
+            }
+        }
+    }
+
     private fun loadConversations() {
         val userId = authRepository.currentUser?.uid ?: return
         viewModelScope.launch {

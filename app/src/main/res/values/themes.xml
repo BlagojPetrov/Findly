@@ -6,6 +6,9 @@
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorPrimaryContainer">@color/brand_primary_light</item>
         <item name="colorOnPrimaryContainer">@color/brand_primary_dark</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
 
         <!-- Secondary -->
         <item name="colorSecondary">@color/brand_secondary</item>

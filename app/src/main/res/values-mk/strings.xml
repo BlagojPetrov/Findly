@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Findly</string>
+
+    <!-- Search & Filters -->
     <string name="search_hint">Пребарај предмети…</string>
     <string name="filter_all">Сите</string>
     <string name="filter_lost">Изгубени</string>
     <string name="filter_found">Најдени</string>
+
+    <!-- Home / Items -->
     <string name="fab_report">Пријави предмет</string>
     <string name="empty_state_title">Ништо не е пронајдено</string>
     <string name="empty_state_subtitle">Обидете се со различно пребарување или филтер</string>
@@ -17,6 +21,8 @@
     <string name="posted_by">Објавено од %1$s</string>
     <string name="contact_coming_soon">Функцијата за чет наскоро</string>
     <string name="report_coming_soon">Пријавувањето наскоро</string>
+
+    <!-- Report -->
     <string name="title_report_item">Пријави предмет</string>
     <string name="label_item_type">Сакам да пријавам…</string>
     <string name="hint_title">Наслов на предметот</string>
@@ -24,30 +30,44 @@
     <string name="hint_category">Категорија</string>
     <string name="hint_location">Каде е изгубен или најден?</string>
     <string name="btn_submit">Поднеси пријава</string>
+
+    <!-- Navigation -->
     <string name="nav_home">Дома</string>
     <string name="nav_saved">Зачувани</string>
     <string name="nav_profile">Профил</string>
+    <string name="nav_messages">Пораки</string>
+
+    <!-- Saved -->
     <string name="saved_empty_title">Сè уште ништо не е зачувано</string>
     <string name="saved_empty_subtitle">Допрете ја ознаката на кој било предмет за да го зачувате</string>
+
+    <!-- Profile -->
     <string name="profile_coming_soon">Профилот наскоро</string>
-    <string name="btn_save">Зачувај предмет</string>
-    <string name="item_saved">Предметот е успешно зачуван</string>
-    <string name="item_unsaved">Предметот е отстранет од зачуваните</string>
-    <string name="guest_user">Гостин корисник</string>
-    <string name="not_signed_in">Не сте најавени</string>
-    <string name="btn_sign_in">Најави се</string>
-    <string name="btn_sign_out">Одјави се</string>
     <string name="label_posts">Објави</string>
     <string name="label_saved">Зачувани</string>
     <string name="label_my_posts">Моите објави</string>
     <string name="no_posts_yet">Сè уште немате објавено ништо</string>
     <string name="auth_coming_soon">Автентикацијата наскоро</string>
 
+    <!-- Save actions -->
+    <string name="btn_save">Зачувај предмет</string>
+    <string name="item_saved">Предметот е успешно зачуван</string>
+    <string name="item_unsaved">Предметот е отстранет од зачуваните</string>
+
+    <!-- User -->
+    <string name="guest_user">Гостин корисник</string>
+    <string name="not_signed_in">Не сте најавени</string>
+    <string name="anonymous_user">Анонимен корисник</string>
+
+    <!-- Auth -->
+    <string name="btn_sign_in">Најави се</string>
+    <string name="btn_sign_out">Одјави се</string>
+
     <string name="app_tagline">Најди го изгубеното, врати го најденото</string>
     <string name="hint_email">Е-маил адреса</string>
     <string name="hint_password">Лозинка</string>
     <string name="hint_confirm_password">Потврди лозинка</string>
-    <string name="hint_display_name">Прикажано име</string>
+    <string name="hint_display_name">Име</string>
     <string name="or">или</string>
     <string name="btn_google_sign_in">Продолжи со Google</string>
     <string name="btn_continue_as_guest">Продолжи како гостин</string>
@@ -57,32 +77,35 @@
     <string name="title_create_account">Креирај сметка</string>
     <string name="subtitle_create_account">Придружете се на Findly и помогнете ја вашата заедница</string>
 
+    <!-- Dialogs -->
     <string name="dialog_sign_out_title">Одјави се</string>
     <string name="dialog_sign_out_message">Дали сте сигурни дека сакате да се одјавите?</string>
     <string name="cancel">Откажи</string>
-    <string name="anonymous_user">Анонимен корисник</string>
 
+    <!-- Photos -->
     <string name="label_photo">Фотографија (незадолжително)</string>
     <string name="label_add_photo">Допрете за да додадете фотографија</string>
     <string name="dialog_pick_image_title">Додај фотографија</string>
     <string name="option_camera">Сними фотографија</string>
     <string name="option_gallery">Избери од галерија</string>
-    <string name="camera_permission_denied">Потребна е дозвола за камера за снимање фотографии</string>
+    <string name="camera_permission_denied">Потребна е дозвола за камера</string>
 
-    <string name="btn_delete">Избриши објава</string>
+    <!-- Delete post -->
+    <string name="btn_delete">Избриши</string>
     <string name="dialog_delete_title">Избриши објава</string>
     <string name="dialog_delete_message">Дали сте сигурни дека сакате да ја избришете оваа објава? Ова не може да се поништи.</string>
 
+    <!-- Upload -->
     <string name="uploading_photo">Се прикачува фотографија…</string>
     <string name="photo_updated">Профилната фотографија е ажурирана</string>
 
+    <!-- Profile photo -->
     <string name="option_remove_photo">Отстрани фотографија</string>
     <string name="dialog_remove_photo_title">Отстрани профилна фотографија</string>
     <string name="dialog_remove_photo_message">Дали сте сигурни дека сакате да ја отстраните вашата профилна фотографија?</string>
     <string name="btn_remove">Отстрани</string>
 
-    <!-- Пораки -->
-    <string name="nav_messages">Пораки</string>
+    <!-- Messaging -->
     <string name="messages">Пораки</string>
     <string name="no_conversations">Сè уште нема разговори</string>
     <string name="no_messages">Сè уште нема пораки. Кажете здраво!</string>
@@ -92,6 +115,10 @@
     <string name="user_avatar">Аватар на корисникот</string>
 
     <string name="potential_matches">Можни совпаѓања</string>
-
     <string name="no_conversations_subtitle">Контактирајте објавувач за да започнете разговор</string>
+
+    <string name="delete_conversation">Избриши разговор</string>
+    <string name="delete_conversation_message">Дали сте сигурни дека сакате да го избришете овој разговор? Ова не може да се поништи.</string>
+    <string name="conversation_deleted">Разговорот е избришан</string>
+
 </resources>

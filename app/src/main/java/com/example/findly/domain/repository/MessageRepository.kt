@@ -24,4 +24,6 @@ interface MessageRepository {
         otherUserPhotoUrl: String?
     ): Result<String>
     suspend fun markMessagesAsRead(conversationId: String, userId: String): Result<Unit>
+
+    suspend fun deleteConversation(conversationId: String): Result<Unit>
 }

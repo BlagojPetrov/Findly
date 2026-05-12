@@ -1,68 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="8dp"
-    android:paddingVertical="4dp">
+    android:orientation="horizontal"
+    android:gravity="start"
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="3dp">
 
-    <ImageView
+    <!-- Avatar -->
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageViewAvatar"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
-        android:contentDescription="@string/user_avatar"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_gravity="bottom"
         android:scaleType="centerCrop"
-        tools:src="@drawable/ic_person"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewSenderName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textStyle="bold"
-        android:textSize="12sp"
-        android:textColor="?attr/colorPrimary"
-        app:layout_constraintStart_toEndOf="@id/imageViewAvatar"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="John Doe" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="0dp"
-        app:cardBackgroundColor="?attr/colorSurface"
+        android:src="@drawable/ic_person"
+        app:shapeAppearanceOverlay="@style/CircleImageView"
         app:strokeColor="?attr/colorOutlineVariant"
         app:strokeWidth="1dp"
-        app:layout_constraintStart_toEndOf="@id/imageViewAvatar"
-        app:layout_constraintTop_toBottomOf="@id/textViewSenderName">
+        tools:src="@drawable/ic_person" />
 
-        <TextView
-            android:id="@+id/textViewMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textColor="?attr/colorOnSurface"
-            tools:text="Yes it is! Where can we meet?" />
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <TextView
-        android:id="@+id/textViewTimestamp"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="2dp"
-        android:textSize="10sp"
-        android:textColor="?attr/colorOnSurfaceVariant"
-        app:layout_constraintStart_toEndOf="@id/imageViewAvatar"
-        app:layout_constraintTop_toBottomOf="@id/cardMessage"
-        tools:text="12:31" />
+        android:orientation="vertical"
+        android:layout_marginEnd="64dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Sender name -->
+        <TextView
+            android:id="@+id/textViewSenderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginStart="4dp"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"
+            tools:text="John Doe" />
+
+        <!-- Message bubble -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="?attr/colorSurface">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="10dp">
+
+                <TextView
+                    android:id="@+id/textViewMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:lineSpacingMultiplier="1.3"
+                    android:textColor="?attr/colorOnSurface"
+                    tools:text="Yes it is! Where can we meet?" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Timestamp -->
+        <TextView
+            android:id="@+id/textViewTimestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="4dp"
+            android:textSize="11sp"
+            android:alpha="0.6"
+            android:textColor="?attr/colorOnSurface"
+            tools:text="12:31" />
+
+    </LinearLayout>
+
+</LinearLayout>

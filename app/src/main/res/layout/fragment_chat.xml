@@ -1,158 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="?attr/android:colorBackground">
 
-    <!-- TOOLBAR -->
+    <!-- Toolbar -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp"
         android:background="?attr/colorSurface"
-        android:elevation="6dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:elevation="4dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="10dp">
 
         <ImageButton
             android:id="@+id/buttonBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_arrow_back"
             android:contentDescription="@string/back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <TextView
-            android:id="@+id/textViewToolbarTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:textColor="?attr/colorOnSurface"
-            android:ellipsize="end"
-            android:maxLines="1"
-            app:layout_constraintStart_toEndOf="@id/buttonBack"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="User Name"/>
-
-        <TextView
-            android:id="@+id/textViewToolbarSubtitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            android:ellipsize="end"
-            android:maxLines="1"
-            app:layout_constraintStart_toEndOf="@id/buttonBack"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewToolbarTitle"
+            android:src="@drawable/ic_arrow_back"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="Item title"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Avatar -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageViewToolbarAvatar"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="4dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_person"
+            app:shapeAppearanceOverlay="@style/CircleImageView"
+            app:strokeColor="?attr/colorOutlineVariant"
+            app:strokeWidth="1dp"
+            app:layout_constraintStart_toEndOf="@id/buttonBack"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@id/imageViewToolbarAvatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:id="@+id/textViewToolbarTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnSurface"
+                tools:text="John Doe" />
+
+            <TextView
+                android:id="@+id/textViewToolbarSubtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="12sp"
+                android:textColor="?attr/colorPrimary"
+                tools:text="Lost: Black Wallet" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- EMPTY STATE -->
-    <LinearLayout
-        android:id="@+id/textViewEmpty"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toTopOf="@id/layoutInput"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/colorOutlineVariant" />
 
-        <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:src="@drawable/ic_message"
-            app:tint="?attr/colorOnSurfaceVariant"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/no_messages"
-            android:textStyle="bold"
-            android:textColor="?attr/colorOnSurface"/>
-    </LinearLayout>
-
-    <!-- PROGRESS -->
-    <com.google.android.material.progressindicator.CircularProgressIndicator
+    <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toTopOf="@id/layoutInput"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        tools:visibility="gone" />
 
-    <!-- MESSAGES -->
+    <TextView
+        android:id="@+id/textViewEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:text="@string/no_messages"
+        android:textSize="15sp"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:gravity="center"
+        android:visibility="gone"
+        tools:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMessages"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="1"
         android:clipToPadding="false"
-        android:padding="8dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toTopOf="@id/layoutInput"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_message_received"/>
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        tools:listitem="@layout/item_message_received" />
 
-    <!-- INPUT -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!-- Input bar -->
+    <LinearLayout
         android:id="@+id/layoutInput"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:background="?attr/colorSurface"
-        android:elevation="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        android:elevation="4dp">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
+            style="@style/Widget.Findly.TextInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/type_a_message"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/buttonSend"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:layout_weight="1"
+            android:hint="@string/type_a_message">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="4"
-                android:inputType="textMultiLine"/>
+                android:inputType="textMultiLine"
+                android:maxLines="4" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonSend"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:enabled="false"
+            android:layout_marginStart="8dp"
             android:contentDescription="@string/send"
+            android:enabled="false"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             app:icon="@android:drawable/ic_menu_send"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:cornerRadius="12dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -14,6 +14,15 @@ class MessageRepositoryImpl(
     private val firestoreMessageSource: FirestoreMessageSource
 ) : MessageRepository {
 
+    override suspend fun deleteConversation(conversationId: String): Result<Unit> {
+        return try {
+            firestoreMessageSource.deleteConversation(conversationId)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     override fun observeConversations(userId: String): Flow<List<Conversation>> {
         return firestoreMessageSource.observeConversations(userId).map { list ->
             list.map { it.toDomain(userId) }

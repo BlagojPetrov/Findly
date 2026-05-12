@@ -16,7 +16,8 @@ import java.util.Date
 import java.util.Locale
 
 class ConversationAdapter(
-    private val onClick: (Conversation) -> Unit
+    private val onClick: (Conversation) -> Unit,
+    private val onLongClick: (Conversation) -> Unit
 ) : ListAdapter<Conversation, ConversationAdapter.ConversationViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConversationViewHolder {
@@ -50,6 +51,10 @@ class ConversationAdapter(
             }
 
             binding.root.setOnClickListener { onClick(conversation) }
+            binding.root.setOnLongClickListener {
+                onLongClick(conversation)
+                true
+            }
         }
 
         private fun formatTimestamp(timestamp: Long): String {

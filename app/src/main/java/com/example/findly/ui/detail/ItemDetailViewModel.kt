@@ -72,6 +72,7 @@ class ItemDetailViewModel(
                 _uiState.value = DetailUiState.Success(item)
                 loadMatches(item)
             } else {
+                savedRepository.removeSavedItem(itemId, currentUserId)
                 _uiState.value = DetailUiState.Error("Item not found")
                 _matchesState.value = MatchesUiState.Empty
             }

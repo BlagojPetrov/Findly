@@ -2,15 +2,16 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface">
+    android:background="?attr/android:colorBackground">
 
-    <!-- App Bar -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorSurface"
+        android:fitsSystemWindows="true"
         app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -23,7 +24,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Content -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,15 +34,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="24dp">
+            android:paddingBottom="32dp">
 
-            <!-- Profile Card -->
+            <!-- Profile card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:strokeWidth="1dp"
                 app:strokeColor="?attr/colorOutlineVariant">
 
@@ -53,22 +54,21 @@
                     android:gravity="center"
                     android:padding="24dp">
 
-                    <!-- Avatar -->
+                    <!-- Avatar with edit button -->
                     <FrameLayout
-                        android:layout_width="92dp"
-                        android:layout_height="92dp">
+                        android:layout_width="96dp"
+                        android:layout_height="96dp">
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/ivAvatar"
-                            android:layout_width="92dp"
-                            android:layout_height="92dp"
+                            android:layout_width="96dp"
+                            android:layout_height="96dp"
                             android:scaleType="centerCrop"
                             android:src="@drawable/ic_person"
                             app:shapeAppearanceOverlay="@style/CircleImageView"
                             app:strokeColor="?attr/colorOutlineVariant"
                             app:strokeWidth="1dp" />
 
-                        <!-- Edit button -->
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/cardEditPhoto"
                             android:layout_width="30dp"
@@ -85,11 +85,12 @@
                                 android:src="@drawable/ic_add_photo"
                                 app:tint="?attr/colorOnPrimary"
                                 android:contentDescription="@null" />
+
                         </com.google.android.material.card.MaterialCardView>
 
                     </FrameLayout>
 
-                    <!-- Name -->
+                    <!-- Display name -->
                     <TextView
                         android:id="@+id/tvDisplayName"
                         android:layout_width="wrap_content"
@@ -110,36 +111,41 @@
                         android:textSize="14sp"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
-                    <!-- Stats -->
+                    <!-- Stats row -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginTop="24dp"
+                        android:background="@drawable/bg_stats_row"
+                        android:padding="16dp">
 
                         <!-- Posts -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:gravity="center">
 
                             <TextView
                                 android:id="@+id/tvPostCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
-                                android:textSize="22sp"
+                                android:textSize="24sp"
                                 android:textStyle="bold"
-                                android:textColor="?attr/colorOnSurface" />
+                                android:textColor="?attr/colorPrimary"
+                                tools:text="3" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
                                 android:text="@string/label_posts"
                                 android:textSize="12sp"
                                 android:textColor="?attr/colorOnSurfaceVariant" />
+
                         </LinearLayout>
 
                         <!-- Divider -->
@@ -153,24 +159,27 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:gravity="center">
 
                             <TextView
                                 android:id="@+id/tvSavedCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
-                                android:textSize="22sp"
+                                android:textSize="24sp"
                                 android:textStyle="bold"
-                                android:textColor="?attr/colorOnSurface" />
+                                android:textColor="?attr/colorPrimary"
+                                tools:text="5" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
                                 android:text="@string/label_saved"
                                 android:textSize="12sp"
                                 android:textColor="?attr/colorOnSurfaceVariant" />
+
                         </LinearLayout>
 
                     </LinearLayout>
@@ -179,38 +188,39 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Sign in/out button -->
+            <!-- Sign out button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSignOut"
-                style="@style/Widget.Material3.Button.OutlinedButton"
+                style="@style/Widget.Findly.Button.Outlined"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_marginHorizontal="16dp"
-                android:text="@string/btn_sign_in"
+                android:text="@string/btn_sign_out"
                 app:icon="@drawable/ic_person"
-                android:foreground="?attr/selectableItemBackground" />
+                app:iconGravity="textStart" />
 
-            <!-- Section title -->
+            <!-- My Posts header -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
                 android:text="@string/label_my_posts"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="?attr/colorOnSurface" />
 
-            <!-- Recycler -->
+            <!-- My posts list -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerMyPosts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
-                android:paddingHorizontal="12dp"
+                android:paddingHorizontal="16dp"
                 android:nestedScrollingEnabled="false" />
 
-            <!-- Empty state -->
+            <!-- Empty posts state -->
             <LinearLayout
                 android:id="@+id/emptyPosts"
                 android:layout_width="match_parent"
@@ -218,21 +228,42 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 android:paddingVertical="32dp"
+                android:paddingHorizontal="32dp"
                 android:visibility="gone">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="@color/brand_primary_light"
+                    app:cardElevation="0dp">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_add"
+                        app:tint="@color/brand_primary"
+                        android:contentDescription="@null" />
+
+                </com.google.android.material.card.MaterialCardView>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:text="@string/no_posts_yet"
-                    android:textSize="15sp"
-                    android:textColor="?attr/colorOnSurfaceVariant" />
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorOnSurface"
+                    android:gravity="center" />
+
             </LinearLayout>
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Loading -->
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
