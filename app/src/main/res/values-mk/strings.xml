@@ -64,7 +64,7 @@
     <string name="btn_sign_out">Одјави се</string>
 
     <string name="app_tagline">Најди го изгубеното, врати го најденото</string>
-    <string name="hint_email">Е-маил адреса</string>
+    <string name="hint_email">Е-пошта</string>
     <string name="hint_password">Лозинка</string>
     <string name="hint_confirm_password">Потврди лозинка</string>
     <string name="hint_display_name">Име</string>
