@@ -84,7 +84,7 @@ dependencies {
     implementation(libs.play.services.auth)
 
     // Facebook Login
-    implementation("com.facebook.android:facebook-login:latest.release")
+    implementation("com.facebook.android:facebook-login:17.0.2")
 
 
     implementation(libs.firebase.storage)
