@@ -13,10 +13,17 @@ interface AuthRepository {
         displayName: String
     ): Result<FirebaseUser>
     suspend fun signInWithGoogle(idToken: String): Result<FirebaseUser>
+    suspend fun signInWithFacebook(
+        token: String,
+        name: String?,
+        photoUrl: String?
+    ): Result<FirebaseUser>
     suspend fun signInAnonymously(): Result<FirebaseUser>
-
     suspend fun updateProfilePhoto(photoUrl: String): Result<Unit>
-
     suspend fun removeProfilePhoto(): Result<Unit>
+    suspend fun sendPasswordResetEmail(email: String): Result<Unit>
+    suspend fun sendEmailVerification(): Result<Unit>
+    suspend fun reloadUser(): Result<Unit>
+    fun isEmailVerified(): Boolean
     fun signOut()
 }

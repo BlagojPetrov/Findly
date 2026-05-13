@@ -39,10 +39,10 @@ class RegisterFragment : Fragment() {
     private fun setupClickListeners() {
         binding.btnRegister.setOnClickListener {
             viewModel.registerWithEmail(
-                email           = binding.etEmail.text?.toString() ?: "",
-                password        = binding.etPassword.text?.toString() ?: "",
+                email = binding.etEmail.text?.toString() ?: "",
+                password = binding.etPassword.text?.toString() ?: "",
                 confirmPassword = binding.etConfirmPassword.text?.toString() ?: "",
-                displayName     = binding.etDisplayName.text?.toString() ?: ""
+                displayName = binding.etDisplayName.text?.toString() ?: ""
             )
         }
 
@@ -56,10 +56,12 @@ class RegisterFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     when (state) {
-                        is AuthUiState.Idle    -> showIdle()
+                        is AuthUiState.Idle -> showIdle()
                         is AuthUiState.Loading -> showLoading()
                         is AuthUiState.Success -> onAuthSuccess()
-                        is AuthUiState.Error   -> showError(state.message)
+                        is AuthUiState.VerificationEmailSent -> onVerificationEmailSent()
+                        is AuthUiState.EmailNotVerified -> onEmailNotVerified()
+                        is AuthUiState.Error -> showError(state.message)
                     }
                 }
             }
@@ -78,6 +80,20 @@ class RegisterFragment : Fragment() {
 
     private fun onAuthSuccess() {
         (requireActivity() as AuthActivity).goToMain()
+    }
+
+    private fun onVerificationEmailSent() {
+        binding.progressBar.visibility = View.GONE
+        binding.btnRegister.isEnabled = true
+        viewModel.resetState()
+        findNavController().navigate(R.id.action_register_to_verification)
+    }
+
+    private fun onEmailNotVerified() {
+        binding.progressBar.visibility = View.GONE
+        binding.btnRegister.isEnabled = true
+        viewModel.resetState()
+        findNavController().navigate(R.id.action_register_to_verification)
     }
 
     private fun showError(message: String) {

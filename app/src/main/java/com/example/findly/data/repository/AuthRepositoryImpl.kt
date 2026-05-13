@@ -27,6 +27,12 @@ class AuthRepositoryImpl(
     override suspend fun signInWithGoogle(idToken: String) =
         dataSource.signInWithGoogle(idToken)
 
+    override suspend fun signInWithFacebook(
+        token: String,
+        name: String?,
+        photoUrl: String?
+    ) = dataSource.signInWithFacebook(token, name, photoUrl)
+
     override suspend fun signInAnonymously() =
         dataSource.signInAnonymously()
 
@@ -35,5 +41,18 @@ class AuthRepositoryImpl(
 
     override suspend fun removeProfilePhoto() =
         dataSource.removeProfilePhoto()
+
+    override suspend fun sendPasswordResetEmail(email: String) =
+        dataSource.sendPasswordResetEmail(email)
+
+    override suspend fun sendEmailVerification() =
+        dataSource.sendEmailVerification()
+
+    override suspend fun reloadUser() =
+        dataSource.reloadUser()
+
+    override fun isEmailVerified() =
+        dataSource.isEmailVerified()
+
     override fun signOut() = dataSource.signOut()
 }

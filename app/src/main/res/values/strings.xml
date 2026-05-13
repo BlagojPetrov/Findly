@@ -103,5 +103,25 @@
     <string name="btn_save_changes">Save Changes</string>
 
     <string name="facebook_app_id">2050509355528826</string>
-    <string name="fb_login_protocol_scheme">02b7e0082f227e4331ba1e73d15a3117</string>
+    <string name="fb_login_protocol_scheme">fb2050509355528826</string>
+
+    <string name="btn_facebook_sign_in">Continue with Facebook</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="forgot_password_title">Reset Password</string>
+    <string name="forgot_password_subtitle">Enter your email and we\'ll send you a reset link</string>
+    <string name="btn_send_reset">Send Reset Email</string>
+    <string name="remembered_password">Remembered your password?</string>
+    <string name="reset_email_sent">Password reset email sent. Check your inbox.</string>
+    <string name="verification_title">Verify Your Email</string>
+    <string name="verification_subtitle">We sent a verification link to your email address</string>
+    <string name="verification_info">Please check your inbox and click the verification link. Once verified, come back and tap the button below.</string>
+    <string name="btn_check_verification">I\'ve Verified My Email</string>
+    <string name="btn_resend_verification">Resend Verification Email</string>
+    <string name="email_verified_success">Email verified! Welcome to Findly.</string>
+    <string name="email_not_verified_yet">Email not verified yet. Please check your inbox.</string>
+    <string name="verification_email_resent">Verification email resent. Check your inbox.</string>
+    <string name="facebook_login_cancelled">Facebook login cancelled</string>
+    <string name="facebook_login_failed">Facebook login failed</string>
+
+    <string name="default_web_client_id">386908871554-q6bhejnmnojmaa3io2ppr7afm55b6chu.apps.googleusercontent.com</string>
 </resources>

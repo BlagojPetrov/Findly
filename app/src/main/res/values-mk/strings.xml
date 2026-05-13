@@ -124,4 +124,22 @@
     <string name="title_edit_item">Уреди предмет</string>
     <string name="btn_edit">Уреди објава</string>
     <string name="btn_save_changes">Зачувај промени</string>
+
+    <string name="btn_facebook_sign_in">Продолжи со Facebook</string>
+    <string name="forgot_password">Заборавена лозинка?</string>
+    <string name="forgot_password_title">Ресетирај лозинка</string>
+    <string name="forgot_password_subtitle">Внесете е-маил и ќе ви испратиме линк за ресетирање</string>
+    <string name="btn_send_reset">Испрати е-маил за ресетирање</string>
+    <string name="remembered_password">Се сетивте на лозинката?</string>
+    <string name="reset_email_sent">Е-маилот за ресетирање е испратен. Проверете го вашето сандаче.</string>
+    <string name="verification_title">Верификувајте го вашиот е-маил</string>
+    <string name="verification_subtitle">Испративме линк за верификација на вашата е-маил адреса</string>
+    <string name="verification_info">Проверете го вашето сандаче и кликнете на линкот за верификација. Откако ќе го верификувате, вратете се и кликнете на копчето подолу.</string>
+    <string name="btn_check_verification">Го верификував мојот е-маил</string>
+    <string name="btn_resend_verification">Препрати е-маил за верификација</string>
+    <string name="email_verified_success">Е-маилот е верификуван! Добредојдовте во Findly.</string>
+    <string name="email_not_verified_yet">Е-маилот сè уште не е верификуван. Проверете го вашето сандаче.</string>
+    <string name="verification_email_resent">Е-маилот за верификација е препратен. Проверете го вашето сандаче.</string>
+    <string name="facebook_login_cancelled">Facebook најавувањето е откажано</string>
+    <string name="facebook_login_failed">Facebook најавувањето не успеа</string>
 </resources>

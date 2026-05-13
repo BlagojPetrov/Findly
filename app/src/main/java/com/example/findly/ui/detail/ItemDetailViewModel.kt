@@ -158,7 +158,10 @@ class ItemDetailViewModel(
                 itemId = item.id,
                 itemTitle = item.title,
                 currentUserId = currentUser.uid,
-                currentUserDisplayName = currentUser.displayName ?: "Anonymous",
+                currentUserDisplayName =
+                    currentUser.displayName
+                        ?: currentUser.email
+                        ?: "User",
                 otherUserId = item.userId,
                 otherUserDisplayName = item.userDisplayName,
                 otherUserPhotoUrl = item.userPhotoUrl

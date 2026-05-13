@@ -9,19 +9,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="?attr/colorSurface">
 
-
-        <!-- Header gradient block -->
+        <!-- Header -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="260dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
             android:background="@drawable/bg_auth_header"
-            android:paddingBottom="32dp">
+            android:paddingTop="72dp"
+            android:paddingBottom="56dp"
+            android:paddingHorizontal="32dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -39,16 +40,15 @@
                 android:text="@string/app_tagline"
                 android:textSize="15sp"
                 android:textColor="#CCffffff"
-                android:gravity="center"
-                android:paddingHorizontal="32dp" />
+                android:gravity="center" />
 
         </LinearLayout>
 
-        <!-- Form card -->
+        <!-- Card overlap -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-24dp">
+            android:layout_marginTop="-32dp">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -56,9 +56,9 @@
                 android:layout_marginHorizontal="20dp"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="0dp"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:strokeWidth="1dp"
                 app:strokeColor="?attr/colorOutlineVariant"
-                app:cardBackgroundColor="?attr/colorSurface"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
@@ -115,12 +115,23 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <!-- Forgot password -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnForgotPassword"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="@string/forgot_password"
+                        android:textSize="13sp"
+                        android:textColor="?attr/colorPrimary" />
+
                     <!-- Sign in button -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSignIn"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="4dp"
                         android:text="@string/btn_sign_in"
                         android:textSize="15sp"
                         android:textStyle="bold"
@@ -168,6 +179,21 @@
                         app:iconGravity="textStart"
                         app:iconPadding="8dp" />
 
+                    <!-- Facebook sign in -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnFacebookSignIn"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/btn_facebook_sign_in"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:backgroundTint="#1877F2"
+                        app:icon="@drawable/ic_facebook"
+                        app:iconGravity="textStart"
+                        app:iconPadding="8dp"
+                        app:cornerRadius="12dp" />
+
                     <!-- Continue as guest -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnAnonymous"
@@ -178,39 +204,44 @@
                         android:text="@string/btn_continue_as_guest"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="12dp"
+                        android:background="?attr/colorOutlineVariant" />
+
+                    <!-- Register link -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="center_horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no_account"
+                            android:textSize="14sp"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnGoToRegister"
+                            style="@style/Widget.Material3.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/btn_register"
+                            android:textColor="?attr/colorPrimary"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!-- Register link -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="32dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/no_account"
-                android:textSize="14sp"
-                android:textColor="?attr/colorOnSurfaceVariant" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnGoToRegister"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_register"
-                android:textColor="?attr/colorPrimary"
-                android:textStyle="bold" />
-
-        </LinearLayout>
 
         <!-- Progress -->
         <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -218,7 +249,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
             android:visibility="gone" />
 
     </LinearLayout>
