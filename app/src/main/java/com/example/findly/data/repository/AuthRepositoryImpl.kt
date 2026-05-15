@@ -54,5 +54,6 @@ class AuthRepositoryImpl(
     override fun isEmailVerified() =
         dataSource.isEmailVerified()
 
+    override fun clearPendingVerificationUser() = dataSource.clearPendingVerificationUser()
     override fun signOut() = dataSource.signOut()
 }

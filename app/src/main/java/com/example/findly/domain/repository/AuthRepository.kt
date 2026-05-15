@@ -25,5 +25,6 @@ interface AuthRepository {
     suspend fun sendEmailVerification(): Result<Unit>
     suspend fun reloadUser(): Result<Unit>
     fun isEmailVerified(): Boolean
+    fun clearPendingVerificationUser()
     fun signOut()
 }

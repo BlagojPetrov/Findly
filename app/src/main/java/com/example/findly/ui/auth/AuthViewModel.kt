@@ -173,6 +173,7 @@ class AuthViewModel : ViewModel() {
                     if (repository.isEmailVerified()) {
                         val userId = repository.currentUser?.uid
                         if (userId != null) fcmRepository.saveTokenForUser(userId)
+                        repository.clearPendingVerificationUser() // <-- ADD THIS
                         _verificationState.value = VerificationState.Verified
                     } else {
                         _verificationState.value = VerificationState.NotVerified

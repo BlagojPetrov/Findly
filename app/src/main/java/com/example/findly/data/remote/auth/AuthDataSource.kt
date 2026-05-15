@@ -15,6 +15,9 @@ class AuthDataSource {
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
 
+    // Cached user reference for resend/reload after sign-out post-registration
+    private var pendingVerificationUser: FirebaseUser? = null
+
     val currentUser: FirebaseUser?
         get() = auth.currentUser
 
@@ -49,13 +52,24 @@ class AuthDataSource {
         return try {
             val result = auth.createUserWithEmailAndPassword(email, password).await()
             val user = result.user!!
+
             val profileUpdates = com.google.firebase.auth.UserProfileChangeRequest.Builder()
                 .setDisplayName(displayName)
                 .build()
             user.updateProfile(profileUpdates).await()
+
+            // 1. Send verification email first, while user is still authenticated
             user.sendEmailVerification().await()
+
+            // 2. Save to Firestore while still signed in
             saveUserToFirestore(user)
+
+            // 3. Cache user reference so resend/reload still works after sign-out
+            pendingVerificationUser = user
+
+            // 4. Sign out last
             auth.signOut()
+
             Result.success(user)
         } catch (e: Exception) {
             Result.failure(e)
@@ -90,13 +104,10 @@ class AuthDataSource {
                 .build()
 
             user.updateProfile(profileUpdates).await()
-
             auth.currentUser?.reload()?.await()
-
             saveUserToFirestore(auth.currentUser!!)
 
             Result.success(user)
-
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -122,8 +133,9 @@ class AuthDataSource {
 
     suspend fun sendEmailVerification(): Result<Unit> {
         return try {
-            val user = auth.currentUser
-                ?: return Result.failure(Exception("No user signed in"))
+            // Falls back to cached user when currentUser is null (after sign-out)
+            val user = auth.currentUser ?: pendingVerificationUser
+            ?: return Result.failure(Exception("No user signed in"))
             user.sendEmailVerification().await()
             Result.success(Unit)
         } catch (e: Exception) {
@@ -133,7 +145,10 @@ class AuthDataSource {
 
     suspend fun reloadUser(): Result<Unit> {
         return try {
-            auth.currentUser?.reload()?.await()
+            // Falls back to cached user when currentUser is null (after sign-out)
+            val user = auth.currentUser ?: pendingVerificationUser
+            ?: return Result.failure(Exception("No user signed in"))
+            user.reload().await()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -141,7 +156,11 @@ class AuthDataSource {
     }
 
     fun isEmailVerified(): Boolean {
-        return auth.currentUser?.isEmailVerified == true
+        return (auth.currentUser ?: pendingVerificationUser)?.isEmailVerified == true
+    }
+
+    fun clearPendingVerificationUser() {
+        pendingVerificationUser = null
     }
 
     suspend fun updateProfilePhoto(photoUrl: String): Result<Unit> {
