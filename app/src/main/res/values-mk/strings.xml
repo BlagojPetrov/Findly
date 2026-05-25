@@ -46,7 +46,7 @@
     <string name="label_posts">Објави</string>
     <string name="label_saved">Зачувани</string>
     <string name="label_my_posts">Моите објави</string>
-    <string name="no_posts_yet">Сè уште немате објавено ништо</string>
+    <string name="no_posts_yet">Сè уште немате поставено објава</string>
     <string name="auth_coming_soon">Автентикацијата наскоро</string>
 
     <!-- Save actions -->
