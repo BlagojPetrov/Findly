@@ -14,7 +14,7 @@
 .cxx
 local.properties
 secrets.properties
-
+.idea/
 node_modules/
 functions/node_modules/
 
