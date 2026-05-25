@@ -1,5 +1,6 @@
 package com.example.findly.ui.add
 
+import com.example.findly.domain.model.toDisplayName
 import android.Manifest
 import android.net.Uri
 import android.os.Bundle
@@ -111,13 +112,15 @@ class AddItemFragment : Fragment() {
 
     private fun setupCategoryDropdown() {
         val categories = Category.entries.map { category ->
-            category.name.lowercase().replaceFirstChar { it.uppercase() }
+            category.toDisplayName(requireContext())
         }
+
         val adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
             categories
         )
+
         binding.actvCategory.setAdapter(adapter)
         binding.actvCategory.setText(categories.first(), false)
     }
@@ -168,9 +171,7 @@ class AddItemFragment : Fragment() {
                     binding.etDescription.setText(item.description)
                     binding.etLocation.setText(item.locationName ?: "")
 
-                    val categoryDisplay = item.category.name
-                        .lowercase()
-                        .replaceFirstChar { it.uppercase() }
+                    val categoryDisplay = item.category.toDisplayName(requireContext())
                     binding.actvCategory.setText(categoryDisplay, false)
 
                     when (item.type) {
@@ -213,13 +214,11 @@ class AddItemFragment : Fragment() {
 
     private fun setupSubmitButton() {
         binding.btnSubmit.setOnClickListener {
-            val selectedCategoryName = binding.actvCategory.text.toString()
-                .uppercase().replace(" ", "_")
-            val category = try {
-                Category.valueOf(selectedCategoryName)
-            } catch (e: IllegalArgumentException) {
-                Category.OTHER
-            }
+            val selectedCategoryText = binding.actvCategory.text.toString()
+
+            val category = Category.entries.find {
+                it.toDisplayName(requireContext()) == selectedCategoryText
+            } ?: Category.OTHER
             viewModel.submitItem(
                 type = selectedType,
                 title = binding.etTitle.text?.toString() ?: "",

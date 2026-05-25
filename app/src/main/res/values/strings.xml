@@ -124,4 +124,15 @@
     <string name="facebook_login_failed">Facebook login failed</string>
 
     <string name="default_web_client_id">386908871554-q6bhejnmnojmaa3io2ppr7afm55b6chu.apps.googleusercontent.com</string>
+
+    <string name="category_electronics">Electronics</string>
+    <string name="category_clothing">Clothing</string>
+    <string name="category_documents">Documents</string>
+    <string name="category_accessories">Accessories</string>
+    <string name="category_keys">Keys</string>
+    <string name="category_wallet">Wallet</string>
+    <string name="category_pets">Pets</string>
+    <string name="category_other">Other</string>
+
+    <string name="label_details">Details</string>
 </resources>

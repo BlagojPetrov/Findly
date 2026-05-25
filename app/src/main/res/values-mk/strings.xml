@@ -142,4 +142,14 @@
     <string name="verification_email_resent">Е-маилот за верификација е препратен. Проверете го вашето сандаче.</string>
     <string name="facebook_login_cancelled">Facebook најавувањето е откажано</string>
     <string name="facebook_login_failed">Facebook најавувањето не успеа</string>
+
+    <string name="category_electronics">Електроника</string>
+    <string name="category_clothing">Облека</string>
+    <string name="category_documents">Документи</string>
+    <string name="category_accessories">Додатоци</string>
+    <string name="category_keys">Клучеви</string>
+    <string name="category_wallet">Паричник</string>
+    <string name="category_pets">Миленици</string>
+    <string name="category_other">Друго</string>
+    <string name="label_details">Детали</string>
 </resources>

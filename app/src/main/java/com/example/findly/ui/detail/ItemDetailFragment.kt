@@ -1,5 +1,6 @@
 package com.example.findly.ui.detail
 
+import com.example.findly.domain.model.toDisplayName
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.os.Bundle
@@ -169,9 +170,7 @@ class ItemDetailFragment : Fragment() {
         binding.tvTimestamp.text = SimpleDateFormat(
             "MMM d, yyyy · HH:mm", Locale.getDefault()
         ).format(Date(item.timestamp))
-        binding.tvCategory.text = item.category.name
-            .lowercase()
-            .replaceFirstChar { it.uppercase() }
+        binding.tvCategory.text = item.category.toDisplayName(requireContext())
 
         binding.chipType.text = when (item.type) {
             ItemType.LOST  -> getString(R.string.type_lost)
