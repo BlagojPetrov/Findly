@@ -25,6 +25,9 @@ import java.util.Date
 import java.util.Locale
 import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.logEvent
+import com.example.findly.MainActivity
 
 class ItemDetailFragment : Fragment() {
 
@@ -212,6 +215,13 @@ class ItemDetailFragment : Fragment() {
         } else {
             binding.ivPosterAvatar.setImageResource(R.drawable.ic_person)
         }
+
+        (requireActivity() as? MainActivity)?.getAnalytics()
+            ?.logEvent(FirebaseAnalytics.Event.VIEW_ITEM) {
+                param(FirebaseAnalytics.Param.ITEM_ID, item.id)
+                param(FirebaseAnalytics.Param.ITEM_NAME, item.title)
+                param("item_type", item.type.name)
+            }
     }
 
 

@@ -16,6 +16,8 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findly.databinding.FragmentChatBinding
 import kotlinx.coroutines.launch
+import com.google.firebase.analytics.logEvent
+import com.example.findly.MainActivity
 
 class ChatFragment : Fragment() {
 
@@ -141,6 +143,14 @@ class ChatFragment : Fragment() {
                         }
                         is SendMessageState.Error -> {
                             binding.buttonSend.isEnabled = true
+                            viewModel.resetSendState()
+                        }
+                        is SendMessageState.Sent -> {
+                            binding.editTextMessage.setText("")
+                            (requireActivity() as? MainActivity)?.getAnalytics()
+                                ?.logEvent("message_sent") {
+                                    param("conversation_id", args.conversationId)
+                                }
                             viewModel.resetSendState()
                         }
                     }

@@ -24,6 +24,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import android.util.Log
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.logEvent
+import com.example.findly.MainActivity
 
 class LoginFragment : Fragment() {
 
@@ -214,6 +217,10 @@ class LoginFragment : Fragment() {
 
     private fun onAuthSuccess() {
         (requireActivity() as AuthActivity).goToMain()
+        (requireActivity() as? MainActivity)?.getAnalytics()
+            ?.logEvent(FirebaseAnalytics.Event.LOGIN) {
+                param(FirebaseAnalytics.Param.METHOD, "email")
+            }
     }
 
     private fun onEmailNotVerified() {

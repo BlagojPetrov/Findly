@@ -14,6 +14,9 @@ import com.example.findly.databinding.FragmentSavedBinding
 import com.example.findly.ui.home.ItemFeedAdapter
 import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.logEvent
+import com.example.findly.MainActivity
 
 class SavedFragment : Fragment() {
 
@@ -40,6 +43,11 @@ class SavedFragment : Fragment() {
     private fun setupRecyclerView() {
         adapter = ItemFeedAdapter(
             onItemClick = { item ->
+                (requireActivity() as? MainActivity)?.getAnalytics()
+                    ?.logEvent("saved_item_opened") {
+                        param(FirebaseAnalytics.Param.ITEM_ID, item.id)
+                        param(FirebaseAnalytics.Param.ITEM_NAME, item.title)
+                    }
                 val action = SavedFragmentDirections.actionSavedToDetail(itemId = item.id)
                 findNavController().navigate(action)
             }

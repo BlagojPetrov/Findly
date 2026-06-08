@@ -17,6 +17,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.findly.data.remote.firestore.FirestoreMessageSource
 import com.example.findly.data.repository.AuthRepositoryImpl
 import com.example.findly.data.repository.MessageRepositoryImpl
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.logEvent
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: com.example.findly.databinding.ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var analytics: FirebaseAnalytics
 
     private val hiddenNavDestinations = setOf(
         R.id.itemDetailFragment,
@@ -46,6 +49,8 @@ class MainActivity : AppCompatActivity() {
         binding = com.example.findly.databinding.ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        analytics = FirebaseAnalytics.getInstance(this)
+
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
@@ -58,10 +63,18 @@ class MainActivity : AppCompatActivity() {
             } else {
                 binding.bottomNavigationView.visibility = View.VISIBLE
             }
+            logScreenView(destination.label?.toString() ?: "Unknown")
         }
 
         requestNotificationPermission()
         observeUnreadCount()
+    }
+
+    private fun logScreenView(screenName: String) {
+        analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+            param(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
+            param(FirebaseAnalytics.Param.SCREEN_CLASS, screenName)
+        }
     }
 
     private fun requestNotificationPermission() {
@@ -108,6 +121,8 @@ class MainActivity : AppCompatActivity() {
             badge.isVisible = false
         }
     }
+
+    fun getAnalytics(): FirebaseAnalytics = analytics
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()

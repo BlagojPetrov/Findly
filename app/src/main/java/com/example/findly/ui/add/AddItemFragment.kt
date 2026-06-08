@@ -26,6 +26,8 @@ import com.example.findly.utils.ImagePickerHelper
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import com.google.firebase.analytics.logEvent
+import com.example.findly.MainActivity
 
 class AddItemFragment : Fragment() {
 
@@ -256,6 +258,10 @@ class AddItemFragment : Fragment() {
 
     private fun onSuccess() {
         binding.progressBar.visibility = View.GONE
+        (requireActivity() as? MainActivity)?.getAnalytics()
+            ?.logEvent("item_created") {
+                param("type", selectedType.name)
+            }
         findNavController().navigateUp()
     }
 
